@@ -1,0 +1,16 @@
+name: crud-app
+region: eu-central-1
+language: ts
+cloudProvider: genezio
+classes: []
+frontend:
+  path: client\dist
+scripts:
+  preFrontendDeploy: npm install @genezio-sdk/crud-app_eu-central-1 && npm install
+    && npm run build
+  preBackendDeploy: npm install
+  preStartLocal: npm install
+workspace:
+  backend: server
+  frontend: client
+packageManager: npm
