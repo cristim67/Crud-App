@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -7,232 +7,15 @@ import {
 } from "@material-tailwind/react";
 import { BackendService } from "@genezio-sdk/crud-app_eu-central-1";
 import { StudentType } from "@genezio-sdk/crud-app_eu-central-1";
-import {useNavigate} from "react-router-dom";
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onAddStudent: (student: StudentType) => void;
-}
-
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onAddStudent }) => {
-  const [formData, setFormData] = useState<StudentType>({
-    id: "",
-    firstName: "",
-    lastName: "",
-    birthDate: new Date(),
-    address: "",
-    email: "",
-    phone: "",
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Save the data or perform any other actions
-    onAddStudent(formData);
-    onClose();
-  };
-
-  return (
-    <div
-      className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}
-    >
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <span
-          className="hidden sm:inline-block sm:align-middle sm:h-screen"
-          aria-hidden="true"
-        >
-          &#8203;
-        </span>
-        <div
-          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:max-w-2xl"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-headline"
-        >
-          <div className="relative p-4 w-full h-full">
-            <div className="relative p-4 bg-white rounded-lg shadow sm:p-5">
-              <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Add Student
-                </h3>
-                <button
-                  type="button"
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                  onClick={onClose}
-                >
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                  <span className="sr-only">Close modal</span>
-                </button>
-              </div>
-              <form onSubmit={handleSave}>
-                <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                  <div>
-                    <label
-                      htmlFor="firstName"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      id="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type first name"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="lastName"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type last name"
-                      required
-                    />
-                  </div>
-                  {/* Add other input fields similarly */}
-                  <div>
-                    <label
-                      htmlFor="birthDate"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Birth Date
-                    </label>
-                    <input
-                      type="date"
-                      name="birthDate"
-                      id="birthDate"
-                      value={formData.birthDate!.toISOString().split("T")[0]}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="address"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Address
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      id="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type address"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type email"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      id="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type phone"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                <button
-                  type="submit"
-                  className="text-black border border-gray-400 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mt-4"
-                >
-                  <svg
-                    className="mr-1 -ml-1 w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                  Add new student
-                </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import { ModalAdd } from "../../widgets/layout/modelAdd.tsx";
+import ModalDelete from "../../widgets/layout/modelDelete.tsx";
 
 export function Students() {
   const [students, setStudents] = useState<StudentType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate= useNavigate();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [studentToDeleteId, setStudentToDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -257,8 +40,20 @@ export function Students() {
     setIsModalOpen(false);
   };
 
+  const openDeleteModal = (id: string) => {
+    setIsDeleteModalOpen(true);
+    setStudentToDeleteId(id);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setStudentToDeleteId(null);
+  };
+
   const handleAddStudent = async (newStudent: StudentType) => {
-    if(newStudent.firstName === undefined|| newStudent.lastName  === undefined|| newStudent.birthDate  === undefined || newStudent.address === undefined|| newStudent.email === undefined || newStudent.phone === undefined) {
+    if (newStudent.firstName === undefined || newStudent.lastName === undefined ||
+      newStudent.birthDate === undefined || newStudent.address === undefined ||
+      newStudent.email === undefined || newStudent.phone === undefined) {
       alert("Please fill all fields");
       return;
     }
@@ -270,14 +65,27 @@ export function Students() {
       newStudent.email,
       newStudent.phone,
     );
-    if(response) {
-      navigate("/dashboard/students")
+    console.log(response);
+    if (response) {
+      window.location.reload();
     }
+  };
+
+  const handleDeleteStudent = async () => {
+    if (!studentToDeleteId) return;
+
+    // Call BackendService.deleteStudent(studentToDeleteId) here
+    // After successful deletion, update the state to remove the deleted student
+    // Example:
+    // setStudents((prevStudents) => prevStudents.filter(student => student.id !== studentToDeleteId));
+
+    closeDeleteModal();
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -289,7 +97,7 @@ export function Students() {
           placeholder
         >
           <Typography variant="h6" color="white" placeholder="true" className="mx-auto">
-            Students Table
+            Students
             <div className="flex justify-end mr-3 mt-[-2rem]">
               <button
                 onClick={openModal}
@@ -327,6 +135,10 @@ export function Students() {
                 <th className="py-3 px-5 border-b border-blue-gray-50">
                   Phone
                 </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Created At
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -339,6 +151,7 @@ export function Students() {
                   address,
                   email,
                   phone,
+                  createdAt,
                 }) => {
                   const className = "py-3 px-5 border-b border-blue-gray-50";
 
@@ -351,6 +164,15 @@ export function Students() {
                       <td className={className}>{address}</td>
                       <td className={className}>{email}</td>
                       <td className={className}>{phone}</td>
+                      <td className={className}>{createdAt?.toString()}</td>
+                      <td className={className}>
+                        <button
+                          onClick={() => openDeleteModal(id)}
+                          className="text-red-500 hover:text-red-700 focus:outline-none"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   );
                 },
@@ -361,11 +183,16 @@ export function Students() {
       </Card>
 
       {/* Modal goes here */}
-      <Modal
+      <ModalAdd
         isOpen={isModalOpen}
         onClose={closeModal}
         onAddStudent={handleAddStudent}
       />
+
+      <ModalDelete
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onDelete={handleDeleteStudent}/>
     </div>
   );
 }
