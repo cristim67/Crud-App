@@ -1,9 +1,9 @@
 import { GenezioDeploy } from "@genezio/types";
 import { Sequelize, DataTypes } from "sequelize";
-import { StudentModel } from "./db/Student";
-import { SubjectModel } from "./db/Subject";
-import { ProfessorModel } from "./db/Professor";
-import { RegisterStudentSubjectModel } from "./db/RegisterStudentSubject";
+import {StudentModel, StudentType} from "./db/Student";
+import {SubjectModel, SubjectType} from "./db/Subject";
+import {ProfessorModel, ProfessorType} from "./db/Professor";
+import {RegisterStudentSubjectModel, RegisterStudentSubjectType} from "./db/RegisterStudentSubject";
 import * as pg from "pg";
 
 @GenezioDeploy()
@@ -236,4 +236,57 @@ export class BackendService {
 
     return registerStudentSubject != null;
   }
+
+  /**
+   * Method that can be used to get all the students.
+   * @returns {Promise<StudentType[]>} An array of students.
+   */
+  async getStudents(): Promise<StudentType[]> {
+    const students = await StudentModel.findAll().catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return students || [];
+  }
+
+  /**
+   * Method that can be used to get all the subjects.
+   * @returns {Promise<SubjectType[]>} An array of subjects.
+   */
+  async getSubjects(): Promise<SubjectType[]> {
+    const subjects = await SubjectModel.findAll().catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return subjects || [];
+  }
+
+  /**
+   * Method that can be used to get all the professors.
+   * @returns {Promise<ProfessorType[]>} An array of professors.
+   */
+  async getProfessors(): Promise<ProfessorType[]> {
+    const professors = await ProfessorModel.findAll().catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return professors || [];
+  }
+
+  /**
+   * Method that can be used to get all the registerStudentSubject.
+   * @returns {Promise<RegisterStudentSubjectType[]>} An array of registerStudentSubject.
+   */
+  async getRegisterStudentSubject(): Promise<RegisterStudentSubjectType[]> {
+    const registerStudentSubject = await RegisterStudentSubjectModel.findAll().catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return registerStudentSubject || [];
+  }
+
 }

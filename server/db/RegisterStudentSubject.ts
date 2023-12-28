@@ -7,3 +7,11 @@ export class RegisterStudentSubjectModel extends Model {
   grade!: number;
   dateRegistered!: Date;
 }
+
+export type RegisterStudentSubjectType = {
+  id: string;
+  studentId?: string;
+  subjectId?: string;
+  grade?: number;
+  dateRegistered?: Date;
+}

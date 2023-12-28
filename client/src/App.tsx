@@ -1,17 +1,12 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home.tsx";
-import { AnimatePresence } from "framer-motion";
-import { ThemeProvider } from "@material-tailwind/react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Dashboard} from "./layouts/dashboard.tsx";
 
 function App() {
   return (
-    <ThemeProvider>
-      <AnimatePresence>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-        </Routes>
-      </AnimatePresence>
-    </ThemeProvider>
+    <Routes>
+      <Route path="/dashboard/*" element={<Dashboard />} />
+      <Route path="*" element={<Navigate to="/dashboard/students" replace />} />
+    </Routes>
   );
 }
 

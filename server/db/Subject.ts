@@ -6,3 +6,10 @@ export class SubjectModel extends Model {
   subjectDescription!: string;
   professorId!: string;
 }
+
+export type SubjectType = {
+  id: string;
+  subjectName?: string;
+  subjectDescription?: string;
+  professorId?: string;
+}
