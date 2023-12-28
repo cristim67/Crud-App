@@ -7,6 +7,7 @@ import {
 } from "@material-tailwind/react";
 import { BackendService } from "@genezio-sdk/crud-app_eu-central-1";
 import { StudentType } from "@genezio-sdk/crud-app_eu-central-1";
+import {useNavigate} from "react-router-dom";
 
 interface ModalProps {
   isOpen: boolean;
@@ -231,6 +232,7 @@ export function Students() {
   const [students, setStudents] = useState<StudentType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate= useNavigate();
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -255,9 +257,22 @@ export function Students() {
     setIsModalOpen(false);
   };
 
-  const handleAddStudent = (newStudent: StudentType) => {
-    // Add the new student to the list
-    setStudents((prevStudents) => [...prevStudents, newStudent]);
+  const handleAddStudent = async (newStudent: StudentType) => {
+    if(newStudent.firstName === undefined|| newStudent.lastName  === undefined|| newStudent.birthDate  === undefined || newStudent.address === undefined|| newStudent.email === undefined || newStudent.phone === undefined) {
+      alert("Please fill all fields");
+      return;
+    }
+    const response = await BackendService.createStudent(
+      newStudent.firstName,
+      newStudent.lastName,
+      newStudent.birthDate,
+      newStudent.address,
+      newStudent.email,
+      newStudent.phone,
+    );
+    if(response) {
+      navigate("/dashboard/students")
+    }
   };
 
   if (loading) {

@@ -5,6 +5,7 @@ export class SubjectModel extends Model {
   subjectName!: string;
   subjectDescription!: string;
   professorId!: string;
+  createdAt?: Date;
 }
 
 export type SubjectType = {
@@ -12,4 +13,5 @@ export type SubjectType = {
   subjectName?: string;
   subjectDescription?: string;
   professorId?: string;
+  createdAt?: Date;
 }

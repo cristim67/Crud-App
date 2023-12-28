@@ -50,6 +50,7 @@ export class BackendService {
         address: DataTypes.STRING,
         email: DataTypes.STRING,
         phone: DataTypes.STRING,
+        createdAt: DataTypes.DATE,
       },
       {
         sequelize: this.sequelize,
@@ -67,6 +68,7 @@ export class BackendService {
         subjectName: DataTypes.STRING,
         subjectDescription: DataTypes.STRING,
         professorId: DataTypes.STRING,
+        createdAt: DataTypes.DATE,
       },
       {
         sequelize: this.sequelize,
@@ -84,6 +86,7 @@ export class BackendService {
         firstName: DataTypes.STRING,
         lastName: DataTypes.STRING,
         email: DataTypes.STRING,
+        createdAt: DataTypes.DATE,
       },
       {
         sequelize: this.sequelize,
@@ -102,6 +105,7 @@ export class BackendService {
         subjectId: DataTypes.STRING,
         grade: DataTypes.INTEGER,
         dateRegistered: DataTypes.DATE,
+        createdAt: DataTypes.DATE,
       },
       {
         sequelize: this.sequelize,
@@ -153,6 +157,7 @@ export class BackendService {
       address: address,
       email: email,
       phone: phone,
+      createdAt: new Date(),
     }).catch((error) => {
       console.error(error);
       return null;
@@ -177,6 +182,7 @@ export class BackendService {
       subjectName: subjectName,
       subjectDescription: subjectDescription,
       professorId: professorId,
+      createdAt: new Date(),
     }).catch((error) => {
       console.error(error);
       return null;
@@ -201,6 +207,7 @@ export class BackendService {
       firstName: firstName,
       lastName: lastName,
       email: email,
+      createdAt: new Date(),
     }).catch((error) => {
       console.error(error);
       return null;
@@ -229,6 +236,7 @@ export class BackendService {
       subjectId: subjectId,
       grade: grade,
       dateRegistered: dateRegistered,
+      createdAt: new Date(),
     }).catch((error) => {
       console.error(error);
       return null;
@@ -242,7 +250,9 @@ export class BackendService {
    * @returns {Promise<StudentType[]>} An array of students.
    */
   async getStudents(): Promise<StudentType[]> {
-    const students = await StudentModel.findAll().catch((error) => {
+    const students = await StudentModel.findAll({
+      order: [["createdAt", "DESC"]],
+    }).catch((error) => {
       console.error(error);
       return null;
     });

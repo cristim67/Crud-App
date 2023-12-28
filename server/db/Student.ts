@@ -8,6 +8,7 @@ export class StudentModel extends Model {
   address!: string;
   email!: string;
   phone!: string;
+  createdAt?: Date;
 }
 
 export type StudentType = {
@@ -18,5 +19,6 @@ export type StudentType = {
   address?: string;
   email?: string;
   phone?: string;
+  createdAt?: Date;
 }
 

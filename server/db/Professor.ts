@@ -5,6 +5,7 @@ export class ProfessorModel extends Model {
   firstName!: string;
   lastName!: string;
   email!: string;
+  createdAt?: Date;
 }
 
 export type ProfessorType = {
@@ -12,4 +13,5 @@ export type ProfessorType = {
   firstName?: string;
   lastName?: string;
   email?: string;
+  createdAt?: Date;
 }
