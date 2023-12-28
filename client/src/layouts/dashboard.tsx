@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Sidenav } from "../widgets/layout/sidenav.tsx";
+import {Sidenav} from "../widgets/layout/sidenav.tsx";
 import routes from "../routes.tsx";
 
 export function Dashboard() {

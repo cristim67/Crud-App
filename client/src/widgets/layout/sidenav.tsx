@@ -1,17 +1,31 @@
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  Button,
-  IconButton,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "../../context";
 
-export function Sidenav({ brandImg, brandName, routes }) {
+interface SidenavProps {
+  brandImg?: string;
+  brandName: string;
+  routes: {
+    layout: string;
+    title?: string;
+    pages: {
+      icon: React.ReactNode;
+      name: string;
+      path: string;
+    }[];
+  }[];
+}
+
+interface SidenavTypes {
+  [key: string]: string;
+}
+
+export function Sidenav({ brandName, routes }: SidenavProps) {
   const [controller, dispatch] = useMaterialTailwindController();
-  const { sidenavColor, sidenavType, openSidenav } = controller;
-  const sidenavTypes = {
+  const { sidenavType, openSidenav } = controller;
+  const sidenavTypes: SidenavTypes = {
     dark: "bg-gradient-to-br from-gray-800 to-gray-900",
     white: "bg-white shadow-sm",
     transparent: "bg-transparent",
@@ -23,13 +37,12 @@ export function Sidenav({ brandImg, brandName, routes }) {
         openSidenav ? "translate-x-0" : "-translate-x-80"
       } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
     >
-      <div
-        className={`relative`}
-      >
+      <div className={`relative`}>
         <Link to="/" className="py-6 px-8 text-center">
-          <Typography
+          < Typography
             variant="h6"
-            color={sidenavType === "black" ? "white" : "blue-gray"}
+            color="black"
+            placeholder
           >
             {brandName}
           </Typography>
@@ -41,6 +54,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
           ripple={false}
           className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
           onClick={() => setOpenSidenav(dispatch, false)}
+          placeholder
         >
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
         </IconButton>
@@ -52,8 +66,9 @@ export function Sidenav({ brandImg, brandName, routes }) {
               <li className="mx-3.5 mt-4 mb-2">
                 <Typography
                   variant="small"
-                  color={sidenavType === "dark" ? "white" : "blue-gray"}
+                  color="white"
                   className="font-black uppercase opacity-75"
+                  placeholder
                 >
                   {title}
                 </Typography>
@@ -65,20 +80,15 @@ export function Sidenav({ brandImg, brandName, routes }) {
                   {({ isActive }) => (
                     <Button
                       variant={isActive ? "gradient" : "text"}
-                      color={
-                        isActive
-                          ? sidenavColor
-                          : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
-                      }
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
+                      placeholder
                     >
                       {icon}
                       <Typography
                         color="inherit"
                         className="font-medium capitalize"
+                        placeholder
                       >
                         {name}
                       </Typography>
@@ -101,8 +111,20 @@ Sidenav.defaultProps = {
 
 Sidenav.propTypes = {
   brandImg: PropTypes.string,
-  brandName: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  brandName: PropTypes.string.isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      layout: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      pages: PropTypes.arrayOf(
+        PropTypes.shape({
+          icon: PropTypes.node.isRequired,
+          name: PropTypes.string.isRequired,
+          path: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+    }),
+  ).isRequired,
 };
 
 Sidenav.displayName = "/src/widgets/layout/sidnave.jsx";
