@@ -14,4 +14,4 @@ export type SubjectType = {
   subjectDescription?: string;
   professorId?: string;
   createdAt?: Date;
-}
+};
