@@ -6,7 +6,7 @@ scripts:
   preBackendDeploy: npm install
   preFrontendDeploy: npm install @genezio-sdk/crud-app_eu-central-1 && npm install && npm run build
 frontend:
-  path: client\dist
+  path: client/dist
   subdomain: crimson-linear-snail
 options:
   nodeRuntime: nodejs18.x
