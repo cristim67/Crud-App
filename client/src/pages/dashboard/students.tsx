@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -8,14 +8,29 @@ import {
 import { BackendService } from "@genezio-sdk/crud-app_eu-central-1";
 import { StudentType } from "@genezio-sdk/crud-app_eu-central-1";
 import { ModalAdd } from "../../widgets/layout/modelAdd.tsx";
-import ModalDelete from "../../widgets/layout/modelDelete.tsx";
+import { ModalDelete } from "../../widgets/layout/modelDelete.tsx";
+import { ModalEdit } from "../../widgets/layout/modelEdit.tsx";
+import { Notification } from "../../widgets/layout/notifications.tsx";
 
-export function Students() {
+interface NotificationState {
+  message: string;
+  type: "success" | "error" | "";
+  isVisible: boolean;
+}
+
+export const Students: React.FC = () => {
   const [students, setStudents] = useState<StudentType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [studentToDeleteId, setStudentToDeleteId] = useState<string | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [studentToEdit, setStudentToEdit] = useState<StudentType | null>(null);
+  const [notification, setNotification] = useState<NotificationState>({
+    message: "",
+    type: "",
+    isVisible: false,
+  });
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -32,13 +47,8 @@ export function Students() {
     fetchStudents();
   }, []);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const openDeleteModal = (id: string) => {
     setIsDeleteModalOpen(true);
@@ -50,53 +60,92 @@ export function Students() {
     setStudentToDeleteId(null);
   };
 
+  const openEditModal = (student: StudentType) => {
+    setStudentToEdit(student);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setStudentToEdit(null);
+    setIsEditModalOpen(false);
+  };
+
   const handleAddStudent = async (newStudent: StudentType) => {
-    if (newStudent.firstName === undefined || newStudent.lastName === undefined ||
-      newStudent.birthDate === undefined || newStudent.address === undefined ||
-      newStudent.email === undefined || newStudent.phone === undefined) {
+
+    if(newStudent.firstName === undefined || newStudent.lastName === undefined || newStudent.birthDate === undefined || newStudent.address === undefined || newStudent.email === undefined || newStudent.phone === undefined){
       alert("Please fill all fields");
       return;
     }
-    const response = await BackendService.createStudent(
-      newStudent.firstName,
-      newStudent.lastName,
-      newStudent.birthDate,
-      newStudent.address,
-      newStudent.email,
-      newStudent.phone,
-    );
-    console.log(response);
-    if (response) {
-      window.location.reload();
+
+    try {
+      const response = await BackendService.createStudent(
+        newStudent.firstName,
+        newStudent.lastName,
+        newStudent.birthDate,
+        newStudent.address,
+        newStudent.email,
+        newStudent.phone
+      );
+      if (response) {
+        showNotification("Student added successfully", "success");
+        const studentsData = await BackendService.getStudents();
+        setStudents(studentsData);
+      } else {
+        showNotification("Failed to add student", "error");
+      }
+    } catch (error) {
+      console.error("Error adding student:", error);
+      showNotification("Failed to add student", "error");
     }
   };
 
   const handleDeleteStudent = async () => {
     if (!studentToDeleteId) return;
 
-    // Call BackendService.deleteStudent(studentToDeleteId) here
-    // After successful deletion, update the state to remove the deleted student
-    // Example:
-    // setStudents((prevStudents) => prevStudents.filter(student => student.id !== studentToDeleteId));
+    try {
+      const response = await BackendService.deleteStudent(studentToDeleteId);
+      if (response) {
+        showNotification("Student deleted successfully", "success");
+        setStudents((prevStudents: StudentType[]) =>
+          prevStudents.filter((student) => student.id !== studentToDeleteId)
+        );
+      } else {
+        showNotification("Failed to delete student", "error");
+      }
+      closeDeleteModal();
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      showNotification("Failed to delete student", "error");
+    }
+  };
 
-    closeDeleteModal();
+  const showNotification = (message: string, type: "success" | "error") => {
+    setNotification({ message, type, isVisible: true });
+    setTimeout(() => {
+      setNotification((prevState) => ({ ...prevState, isVisible: false }));
+    }, 5000);
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
-      <Card  placeholder>
+      <Notification message={notification.message} type={notification.type} />
+      <Card placeholder>
         <CardHeader
           variant="gradient"
           color="gray"
           className="mb-8 p-6"
           placeholder
         >
-          <Typography variant="h6" color="white" placeholder="true" className="mx-auto">
+          <Typography
+            variant="h6"
+            color="white"
+            placeholder="true"
+            className="mx-auto"
+          >
             Students
             <div className="flex justify-end mr-3 mt-[-2rem]">
               <button
@@ -115,74 +164,92 @@ export function Students() {
         >
           <table className="w-full min-w-[640px] table-auto">
             <thead>
-              <tr>
-                <th className="py-3 px-5 border-b border-blue-gray-50">ID</th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  First Name
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Last Name
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Birth Date
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Address
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Email
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Phone
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Created At
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">Delete</th>
-              </tr>
+            <tr>
+              <th className="py-3 px-5 border-b border-blue-gray-50">ID</th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">
+                First Name
+              </th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">
+                Last Name
+              </th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">
+                Birth Date
+              </th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">Address</th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">Email</th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">Phone</th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">
+                Created At
+              </th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">Edit</th>
+              <th className="py-3 px-5 border-b border-blue-gray-50">Delete</th>
+            </tr>
             </thead>
             <tbody>
-              {students.map(
-                ({
-                  id,
-                  firstName,
-                  lastName,
-                  birthDate,
-                  address,
-                  email,
-                  phone,
-                  createdAt,
-                }) => {
-                  const className = "py-3 px-5 border-b border-blue-gray-50";
+            {students.map(
+              ({
+                 id,
+                 firstName,
+                 lastName,
+                 birthDate,
+                 address,
+                 email,
+                 phone,
+                 createdAt,
+               }) => {
+                const className = "py-3 px-5 border-b border-blue-gray-50";
 
-                  return (
-                    <tr key={id}>
-                      <td className={className}>{id}</td>
-                      <td className={className}>{firstName}</td>
-                      <td className={className}>{lastName}</td>
-                      <td className={className}>{birthDate?.toString()}</td>
-                      <td className={className}>{address}</td>
-                      <td className={className}>{email}</td>
-                      <td className={className}>{phone}</td>
-                      <td className={className}>{createdAt?.toString()}</td>
-                      <td className={className}>
-                        <button
-                          onClick={() => openDeleteModal(id)}
-                          className="text-red-500 hover:text-red-700 focus:outline-none"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                },
-              )}
+                return (
+                  <tr key={id}>
+                    <td className={className}>{id}</td>
+                    <td className={className}>{firstName}</td>
+                    <td className={className}>{lastName}</td>
+                    <td className={className}>
+                      {new Date(birthDate!)
+                        .toISOString()
+                        .split("T")[0]}
+                    </td>
+                    <td className={className}>{address}</td>
+                    <td className={className}>{email}</td>
+                    <td className={className}>{phone}</td>
+                    <td className={className}>{createdAt?.toString()}</td>
+                    <td className={className}>
+                      <button
+                        onClick={() =>
+                          openEditModal({
+                            id,
+                            firstName,
+                            lastName,
+                            birthDate,
+                            address,
+                            email,
+                            phone,
+                            createdAt,
+                          })
+                        }
+                        className="text-blue-500 hover:text-blue-700 focus:outline-none"
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td className={className}>
+                      <button
+                        onClick={() => openDeleteModal(id)}
+                        className="text-red-500 hover:text-red-700 focus:outline-none"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              }
+            )}
             </tbody>
           </table>
         </CardBody>
       </Card>
 
-      {/* Modal goes here */}
+      {/* Modals go here */}
       <ModalAdd
         isOpen={isModalOpen}
         onClose={closeModal}
@@ -192,9 +259,45 @@ export function Students() {
       <ModalDelete
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
-        onDelete={handleDeleteStudent}/>
+        onDelete={handleDeleteStudent}
+      />
+
+      <ModalEdit
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        onEdit={async (editedStudent: StudentType) => {
+
+          if(editedStudent.firstName === undefined || editedStudent.lastName === undefined || editedStudent.birthDate === undefined || editedStudent.address === undefined || editedStudent.email === undefined || editedStudent.phone === undefined){
+            alert("Please fill all fields");
+            return;
+          }
+
+          try {
+            const response = await BackendService.updateStudent(
+              editedStudent.id,
+              editedStudent.firstName,
+              editedStudent.lastName,
+              editedStudent.birthDate,
+              editedStudent.address,
+              editedStudent.email,
+              editedStudent.phone
+            );
+            closeEditModal();
+            if (response) {
+              showNotification("Student updated successfully", "success");
+              const studentsData = await BackendService.getStudents();
+              setStudents(studentsData);
+            } else {
+              showNotification("Failed to update student", "error");
+            }
+          } catch (error) {
+            console.error("Error updating student:", error);
+            showNotification("Failed to update student", "error");
+          }
+        }}
+        initialData={studentToEdit}
+      />
     </div>
   );
-}
+};
 
-export default Students;

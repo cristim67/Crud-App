@@ -1,9 +1,12 @@
 import { GenezioDeploy } from "@genezio/types";
 import { Sequelize, DataTypes } from "sequelize";
-import {StudentModel, StudentType} from "./db/Student";
-import {SubjectModel, SubjectType} from "./db/Subject";
-import {ProfessorModel, ProfessorType} from "./db/Professor";
-import {RegisterStudentSubjectModel, RegisterStudentSubjectType} from "./db/RegisterStudentSubject";
+import { StudentModel, StudentType } from "./db/Student";
+import { SubjectModel, SubjectType } from "./db/Subject";
+import { ProfessorModel, ProfessorType } from "./db/Professor";
+import {
+  RegisterStudentSubjectModel,
+  RegisterStudentSubjectType,
+} from "./db/RegisterStudentSubject";
 import * as pg from "pg";
 
 @GenezioDeploy()
@@ -15,7 +18,6 @@ export class BackendService {
    * It will initialize the connection to the database.
    * @constructor
    */
-
   constructor() {
     if (process.env.POSTGRESQL_URL == null) {
       console.error("Error: POSTGRESQL_URL is not defined");
@@ -291,12 +293,228 @@ export class BackendService {
    * @returns {Promise<RegisterStudentSubjectType[]>} An array of registerStudentSubject.
    */
   async getRegisterStudentSubject(): Promise<RegisterStudentSubjectType[]> {
-    const registerStudentSubject = await RegisterStudentSubjectModel.findAll().catch((error) => {
-      console.error(error);
-      return null;
-    });
+    const registerStudentSubject =
+      await RegisterStudentSubjectModel.findAll().catch((error) => {
+        console.error(error);
+        return null;
+      });
 
     return registerStudentSubject || [];
   }
 
+  /**
+   * Method that can be used to delete a student.
+   * @param id
+   * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
+   */
+  async deleteStudent(id: string): Promise<boolean> {
+    const student = await StudentModel.destroy({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return student != null;
+  }
+
+  /**
+   * Method that can be used to delete a subject.
+   * @param id
+   * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
+   */
+  async deleteSubject(id: string): Promise<boolean> {
+    const subject = await SubjectModel.destroy({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return subject != null;
+  }
+
+  /**
+   * Method that can be used to delete a professor.
+   * @param id
+   * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
+   */
+  async deleteProfessor(id: string): Promise<boolean> {
+    const professor = await ProfessorModel.destroy({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return professor != null;
+  }
+
+  /**
+   * Method that can be used to delete a registerStudentSubject.
+   * @param id
+   * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
+   */
+  async deleteRegisterStudentSubject(id: string): Promise<boolean> {
+    const registerStudentSubject = await RegisterStudentSubjectModel.destroy({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return registerStudentSubject != null;
+  }
+
+  /**
+   * Method that can be used to update a student by id.
+   * @param id
+   * @param firstName
+   * @param lastName
+   * @param birthDate
+   * @param address
+   * @param email
+   * @param phone
+   * @returns {Promise<boolean>} A boolean that is true if the update was successfull, false otherwise.
+   */
+  async updateStudent(
+    id: string,
+    firstName: string,
+    lastName: string,
+    birthDate: Date,
+    address: string,
+    email: string,
+    phone: string,
+  ): Promise<boolean> {
+    const student = await StudentModel.update(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        birthDate: birthDate,
+        address: address,
+        email: email,
+        phone: phone,
+      },
+      {
+        where: {
+          id: id,
+        },
+      },
+    ).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return student != null;
+  }
+
+  /**
+   * Method that can be used to update a subject by id.
+   * @param id
+   * @param subjectName
+   * @param subjectDescription
+   * @param professorId
+   * @returns {Promise<boolean>} A boolean that is true if the update was successfull, false otherwise.
+   */
+  async updateSubject(
+    id: string,
+    subjectName: string,
+    subjectDescription: string,
+    professorId: string,
+  ): Promise<boolean> {
+    const subject = await SubjectModel.update(
+      {
+        subjectName: subjectName,
+        subjectDescription: subjectDescription,
+        professorId: professorId,
+      },
+      {
+        where: {
+          id: id,
+        },
+      },
+    ).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return subject != null;
+  }
+
+  /**
+   * Method that can be used to update a professor by id.
+   * @param id
+   * @param firstName
+   * @param lastName
+   * @param email
+   * @returns {Promise<boolean>} A boolean that is true if the update was successfull, false otherwise.
+   */
+  async updateProfessor(
+    id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+  ): Promise<boolean> {
+    const professor = await ProfessorModel.update(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      },
+      {
+        where: {
+          id: id,
+        },
+      },
+    ).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return professor != null;
+  }
+
+  /**
+   * Method that can be used to update a registerStudentSubject by id.
+   * @param id
+   * @param studentId
+   * @param subjectId
+   * @param grade
+   * @param dateRegistered
+   * @returns {Promise<boolean>} A boolean that is true if the update was successfull, false otherwise.
+   */
+  async updateRegisterStudentSubject(
+    id: string,
+    studentId: string,
+    subjectId: string,
+    grade: number,
+    dateRegistered: Date,
+  ): Promise<boolean> {
+    const registerStudentSubject = await RegisterStudentSubjectModel.update(
+      {
+        studentId: studentId,
+        subjectId: subjectId,
+        grade: grade,
+        dateRegistered: dateRegistered,
+      },
+      {
+        where: {
+          id: id,
+        },
+      },
+    ).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return registerStudentSubject != null;
+  }
 }

@@ -4,7 +4,7 @@ interface ModalDeleteProps {
   onDelete: () => void;
 }
 
-const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDelete }) => {
+export const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDelete }) => {
   return (
     <div className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}>
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -49,26 +49,14 @@ const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDelete }) 
               <div className="flex justify-end mt-4">
                 <button
                   type="button"
-                  className="text-black border border-gray-400 inline-flex items-center bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mr-2"
+                  className="text-black border border-gray-400 inline-flex items-center bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mr-2 mt-4"
                   onClick={onDelete}
                 >
-                  <svg
-                    className="mr-1 -ml-1 w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M6 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zM4 5a1 1 0 100 2h12a1 1 0 100-2H4zM15 9a1 1 0 011-1h2a1 1 0 010 2h-2a1 1 0 01-1-1zM5 8a1 1 0 011-1h2a1 1 0 010 2H6a1 1 0 01-1-1zM18 13a1 1 0 011-1h1a1 1 0 010 2h-1a1 1 0 01-1-1zM5 12a1 1 0 100 2h10a1 1 0 100-2H5zM18 17a1 1 0 011-1h1a1 1 0 010 2h-1a1 1 0 01-1-1zM5 16a1 1 0 100 2h10a1 1 0 100-2H5z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
                   Delete
                 </button>
                 <button
                   type="button"
-                  className="text-black border border-gray-400 inline-flex items-center bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="text-black border border-gray-400 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mt-4"
                   onClick={onClose}
                 >
                   Cancel
@@ -82,4 +70,3 @@ const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDelete }) 
   );
 };
 
-export default ModalDelete;

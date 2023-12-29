@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import { Sidenav } from "../widgets/layout/sidenav.tsx";
 import routes from "../routes.tsx";
-import Navbar from "../widgets/layout/navbar.tsx";
-import { useMediaQuery } from 'react-responsive';
+// import Navbar from "../widgets/layout/navbar.tsx";
+// import { useMediaQuery } from 'react-responsive';
 
 export function Dashboard() {
-  const isSmallScreen = useMediaQuery({ maxWidth: 1140 });
+  // const isSmallScreen = useMediaQuery({ maxWidth: 1140 });
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
       <Sidenav routes={routes} />
