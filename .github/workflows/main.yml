@@ -18,6 +18,15 @@ jobs:
       - name: install pg
         working-directory: ./server
         run: npm install pg
+      - name: preBackendDeploy
+        working-directory: ./client
+        run: npm install @genezio-sdk/crud-app_eu-central-1
+      - name: preFrontendDeploy
+        working-directory: ./client
+        run: npm install
+      - name: npm run build
+        working-directory: ./client
+        run: npm run build
       - name: Deploy backend
         run: genezio deploy
         env:
