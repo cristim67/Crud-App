@@ -5,7 +5,7 @@ export class SubjectModel extends Model {
   subjectName!: string;
   subjectDescription!: string;
   professorId!: string;
-  createdAt?: Date;
+  createdAt!: Date;
 }
 
 export type SubjectType = {
