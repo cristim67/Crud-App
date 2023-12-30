@@ -1,7 +1,6 @@
-import {
-  HomeIcon,
-} from "@heroicons/react/24/solid";
-import {Students} from "./pages/dashboard/students.tsx"
+import { HomeIcon } from "@heroicons/react/24/solid";
+import { Students } from "./pages/dashboard/students.tsx";
+import { Subjects } from "./pages/dashboard/subjects.tsx";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -24,9 +23,9 @@ export const routes = [
     pages: [
       {
         icon: <HomeIcon {...icon} />,
-        name: "Students",
-        path: "/home",
-        element: <Students />,
+        name: "Subjects",
+        path: "/subjects",
+        element: <Subjects />,
       },
     ],
   },

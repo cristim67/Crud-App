@@ -20,5 +20,4 @@ export type StudentType = {
   email?: string;
   phone?: string;
   createdAt?: Date;
-}
-
+};

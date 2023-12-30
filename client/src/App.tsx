@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard} from "./layouts/dashboard.tsx";
+import { Dashboard } from "./layouts/dashboard.tsx";
 
 function App() {
   return (

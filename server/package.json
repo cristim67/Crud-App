@@ -1,7 +1,7 @@
 {
   "name": "crud-app-backend",
   "version": "1.0.0",
-  "description": "TypeScript Weather-App Backend wrtitten using Genezio, that stores weather locations in memory",
+  "description": "Crud app backend",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

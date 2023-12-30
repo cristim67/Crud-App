@@ -14,4 +14,4 @@ export type ProfessorType = {
   lastName?: string;
   email?: string;
   createdAt?: Date;
-}
+};

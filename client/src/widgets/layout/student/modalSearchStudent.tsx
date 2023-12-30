@@ -8,10 +8,10 @@ interface ModalSearchProps {
 }
 
 export const ModalSearch: React.FC<ModalSearchProps> = ({
-                                                          isOpen,
-                                                          onClose,
-                                                          onSearch,
-                                                        }) => {
+  isOpen,
+  onClose,
+  onSearch,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +25,7 @@ export const ModalSearch: React.FC<ModalSearchProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 overflow-y-auto ${
-        isOpen ? "block" : "hidden"
-      }`}
+      className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}
     >
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">

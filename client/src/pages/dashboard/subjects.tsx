@@ -6,11 +6,11 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { BackendService } from "@genezio-sdk/crud-app_eu-central-1";
-import { StudentType } from "@genezio-sdk/crud-app_eu-central-1";
-import { ModalAdd } from "../../widgets/layout/student/modalAddStudent.tsx";
-import { ModalDelete } from "../../widgets/layout/student/modalDeleteStudent.tsx";
-import { ModalEdit } from "../../widgets/layout/student/modalEditStudent.tsx";
-import { ModalSearch } from "../../widgets/layout/student/modalSearchStudent.tsx";
+import { SubjectType } from "@genezio-sdk/crud-app_eu-central-1";
+import { ModalAdd } from "../../widgets/layout/subject/modalAddSubject.tsx";
+import { ModalDelete } from "../../widgets/layout/subject/modalDeleteSubject.tsx";
+import { ModalEdit } from "../../widgets/layout/subject/modalEditSubject.tsx";
+import { ModalSearch } from "../../widgets/layout/subject/modalSearchSubject.tsx";
 import { Notification } from "../../widgets/layout/notifications.tsx";
 
 interface NotificationState {
@@ -19,15 +19,17 @@ interface NotificationState {
   isVisible: boolean;
 }
 
-export const Students: React.FC = () => {
-  const [students, setStudents] = useState<StudentType[]>([]);
+export const Subjects: React.FC = () => {
+  const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [studentToDeleteId, setStudentToDeleteId] = useState<string | null>(null);
+  const [subjectToDeleteId, setSubjectToDeleteId] = useState<string | null>(
+    null,
+  );
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [studentToEdit, setStudentToEdit] = useState<StudentType | null>(null);
+  const [subjectToEdit, setSubjectToEdit] = useState<SubjectType | null>(null);
   const [notification, setNotification] = useState<NotificationState>({
     message: "",
     type: "",
@@ -35,100 +37,100 @@ export const Students: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchStudents = async () => {
+    const fetchSubjects = async () => {
       try {
-        const studentsData = await BackendService.getStudents();
-        setStudents(studentsData);
+        const subjectsData = await BackendService.getSubjects();
+        setSubjects(subjectsData);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching students:", error);
+        console.error("Error fetching subjects:", error);
         setLoading(false);
       }
     };
 
-    fetchStudents();
+    fetchSubjects();
   }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const openModalSearch = () => setIsSearchModalOpen(true);
   const closeModalSearch = () => setIsSearchModalOpen(false);
-  const handleSearchStudent = async (id: string) => {
-    const foundStudent = await BackendService.searchStudentbyId(id);
-    if (foundStudent) {
-      openEditModal(foundStudent);
+  const handleSearchSubject = async (id: string) => {
+    const foundSubject = await BackendService.searchSubjectbyId(id);
+    if (foundSubject) {
+      openEditModal(foundSubject);
     } else {
-      showNotification("Student not found", "error");
+      showNotification("Subject not found", "error");
     }
     closeModalSearch();
   };
 
   const openDeleteModal = (id: string) => {
     setIsDeleteModalOpen(true);
-    setStudentToDeleteId(id);
+    setSubjectToDeleteId(id);
   };
 
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
-    setStudentToDeleteId(null);
+    setSubjectToDeleteId(null);
   };
 
-  const openEditModal = (student: StudentType) => {
-    setStudentToEdit(student);
+  const openEditModal = (subject: SubjectType) => {
+    setSubjectToEdit(subject);
     setIsEditModalOpen(true);
   };
 
   const closeEditModal = () => {
-    setStudentToEdit(null);
+    setSubjectToEdit(null);
     setIsEditModalOpen(false);
   };
 
-  const handleAddStudent = async (newStudent: StudentType) => {
-
-    if(newStudent.firstName === undefined || newStudent.lastName === undefined || newStudent.birthDate === undefined || newStudent.address === undefined || newStudent.email === undefined || newStudent.phone === undefined){
+  const handleAddSubject = async (newSubject: SubjectType) => {
+    if (
+      newSubject.subjectName === undefined ||
+      newSubject.subjectDescription === undefined ||
+      newSubject.professorId === undefined
+    ) {
       alert("Please fill all fields");
       return;
     }
 
     try {
-      const response = await BackendService.createStudent(
-        newStudent.firstName,
-        newStudent.lastName,
-        newStudent.birthDate,
-        newStudent.address,
-        newStudent.email,
-        newStudent.phone
+      const response = await BackendService.createSubject(
+        newSubject.subjectName,
+        newSubject.subjectDescription,
+        newSubject.professorId,
       );
       if (response) {
-        showNotification("Student added successfully", "success");
-        const studentsData = await BackendService.getStudents();
-        setStudents(studentsData);
+        showNotification("Subject added successfully", "success");
+        const subjectsData = await BackendService.getSubjects();
+        setSubjects(subjectsData);
       } else {
-        showNotification("Failed to add student", "error");
+        showNotification("Failed to add subject", "error");
       }
     } catch (error) {
-      console.error("Error adding student:", error);
-      showNotification("Failed to add student", "error");
+      console.error("Error adding subject:", error);
+      showNotification("Failed to add subject", "error");
     }
   };
 
-  const handleDeleteStudent = async () => {
-    if (!studentToDeleteId) return;
+  const handleDeleteSubject = async () => {
+    if (!subjectToDeleteId) return;
 
     try {
-      const response = await BackendService.deleteStudent(studentToDeleteId);
+      const response = await BackendService.deleteSubject(subjectToDeleteId);
       if (response) {
-        showNotification("Student deleted successfully", "success");
-        setStudents((prevStudents: StudentType[]) =>
-          prevStudents.filter((student) => student.id !== studentToDeleteId)
+        showNotification("Subject deleted successfully", "success");
+        setSubjects((prevSubjects: SubjectType[]) =>
+          prevSubjects.filter((subject) => subject.id !== subjectToDeleteId),
         );
       } else {
-        showNotification("Failed to delete student", "error");
+        showNotification("Failed to delete subject", "error");
       }
       closeDeleteModal();
     } catch (error) {
-      console.error("Error deleting student:", error);
-      showNotification("Failed to delete student", "error");
+      console.error("Error deleting subject:", error);
+      showNotification("Failed to delete subject", "error");
     }
   };
 
@@ -159,14 +161,14 @@ export const Students: React.FC = () => {
             placeholder="true"
             className="mx-auto"
           >
-            Students
+            Subjects
             <div className="flex justify-end mr-3 mt-[-2rem]">
               <button
                 onClick={openModalSearch}
                 className="mr-2 block text-black bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 type="button"
               >
-                Search Student
+                Search Subject
               </button>
 
               <button
@@ -174,7 +176,7 @@ export const Students: React.FC = () => {
                 className="block text-black bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 type="button"
               >
-                Add Student
+                Add Subject
               </button>
             </div>
           </Typography>
@@ -186,44 +188,36 @@ export const Students: React.FC = () => {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                <th className="py-3 px-5 border-b border-blue-gray-50">ID</th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  First Name
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
+                  Id
                 </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Last Name
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
+                  Subject Name
                 </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Birth Date
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
+                  Subject Description
                 </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Address
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
+                  Professor Id
                 </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Email
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
-                  Phone
-                </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
                   Created At
                 </th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">Edit</th>
-                <th className="py-3 px-5 border-b border-blue-gray-50">
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
+                  Edit
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50 dark:border-gray-600 bg-primary-700 dark:bg-primary-600 dark:text-white">
                   Delete
                 </th>
               </tr>
             </thead>
             <tbody>
-              {students.map(
+              {subjects.map(
                 ({
                   id,
-                  firstName,
-                  lastName,
-                  birthDate,
-                  address,
-                  email,
-                  phone,
+                  subjectName,
+                  subjectDescription,
+                  professorId,
                   createdAt,
                 }) => {
                   const className = "py-3 px-5 border-b border-blue-gray-50";
@@ -231,26 +225,18 @@ export const Students: React.FC = () => {
                   return (
                     <tr key={id}>
                       <td className={className}>{id}</td>
-                      <td className={className}>{firstName}</td>
-                      <td className={className}>{lastName}</td>
-                      <td className={className}>
-                        {new Date(birthDate!).toISOString().split("T")[0]}
-                      </td>
-                      <td className={className}>{address}</td>
-                      <td className={className}>{email}</td>
-                      <td className={className}>{phone}</td>
+                      <td className={className}>{subjectName}</td>
+                      <td className={className}>{subjectDescription}</td>
+                      <td className={className}>{professorId}</td>
                       <td className={className}>{createdAt?.toString()}</td>
                       <td className={className}>
                         <button
                           onClick={() =>
                             openEditModal({
                               id,
-                              firstName,
-                              lastName,
-                              birthDate,
-                              address,
-                              email,
-                              phone,
+                              subjectName,
+                              subjectDescription,
+                              professorId,
                               createdAt,
                             })
                           }
@@ -280,63 +266,56 @@ export const Students: React.FC = () => {
       <ModalAdd
         isOpen={isModalOpen}
         onClose={closeModal}
-        onAddStudent={handleAddStudent}
+        onAddSubject={handleAddSubject}
       />
 
       <ModalDelete
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
-        onDelete={handleDeleteStudent}
+        onDelete={handleDeleteSubject}
       />
 
       <ModalSearch
         isOpen={isSearchModalOpen}
         onClose={closeModalSearch}
-        onSearch={handleSearchStudent}
+        onSearch={handleSearchSubject}
       />
 
       <ModalEdit
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
-        onEdit={async (editedStudent: StudentType) => {
+        onEdit={async (editedSubject: SubjectType) => {
           if (
-            editedStudent.firstName === undefined ||
-            editedStudent.lastName === undefined ||
-            editedStudent.birthDate === undefined ||
-            editedStudent.address === undefined ||
-            editedStudent.email === undefined ||
-            editedStudent.phone === undefined
+            editedSubject.subjectName === undefined ||
+            editedSubject.subjectDescription === undefined ||
+            editedSubject.professorId === undefined
           ) {
             alert("Please fill all fields");
             return;
           }
 
           try {
-            const response = await BackendService.updateStudent(
-              editedStudent.id,
-              editedStudent.firstName,
-              editedStudent.lastName,
-              editedStudent.birthDate,
-              editedStudent.address,
-              editedStudent.email,
-              editedStudent.phone,
+            const response = await BackendService.updateSubject(
+              editedSubject.id,
+              editedSubject.subjectName,
+              editedSubject.subjectDescription,
+              editedSubject.professorId,
             );
             closeEditModal();
             if (response) {
-              showNotification("Student updated successfully", "success");
-              const studentsData = await BackendService.getStudents();
-              setStudents(studentsData);
+              showNotification("Subject updated successfully", "success");
+              const subjectsData = await BackendService.getSubjects();
+              setSubjects(subjectsData);
             } else {
-              showNotification("Failed to update student", "error");
+              showNotification("Failed to update subject", "error");
             }
           } catch (error) {
-            console.error("Error updating student:", error);
-            showNotification("Failed to update student", "error");
+            console.error("Error updating subject:", error);
+            showNotification("Failed to update subject", "error");
           }
         }}
-        initialData={studentToEdit}
+        initialData={subjectToEdit}
       />
     </div>
   );
 };
-

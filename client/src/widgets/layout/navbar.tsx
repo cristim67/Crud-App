@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ReactElement, ReactNode } from "react";
-import PropTypes, {  Validator} from "prop-types";
+import PropTypes, { Validator } from "prop-types";
 import { Link } from "react-router-dom";
 import {
   Navbar as MTNavbar,
@@ -75,11 +75,11 @@ const Navbar: React.FC<NavbarProps> = ({ brandName, routes, action }) => {
           </Typography>
         </Link>
         <div className="hidden lg:block">{navList}</div>
-        {action && React.isValidElement(action) ? (
-          React.cloneElement(action as ReactElement, {
-            className: "hidden lg:inline-block",
-          })
-        ) : null}
+        {action && React.isValidElement(action)
+          ? React.cloneElement(action as ReactElement, {
+              className: "hidden lg:inline-block",
+            })
+          : null}
         <IconButton
           variant="text"
           size="sm"
@@ -97,11 +97,11 @@ const Navbar: React.FC<NavbarProps> = ({ brandName, routes, action }) => {
       <Collapse open={openNav}>
         <div className="container mx-auto">
           {navList}
-          {action && React.isValidElement(action) ? (
-            React.cloneElement(action as ReactElement, {
-              className: "w-full block lg:hidden",
-            })
-          ) : null}
+          {action && React.isValidElement(action)
+            ? React.cloneElement(action as ReactElement, {
+                className: "w-full block lg:hidden",
+              })
+            : null}
         </div>
       </Collapse>
     </MTNavbar>
@@ -130,7 +130,7 @@ Navbar.propTypes = {
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       icon: PropTypes.elementType,
-    })
+    }),
   ).isRequired as Validator<Route[]>,
   action: PropTypes.node,
 };

@@ -39,11 +39,7 @@ export function Sidenav({ name, routes }: SidenavProps) {
     >
       <div className={`relative`}>
         <Link to="/" className="py-6 px-8 text-center">
-          < Typography
-            variant="h6"
-            color="black"
-            placeholder
-          >
+          <Typography variant="h6" color="black" placeholder>
             {name}
           </Typography>
         </Link>

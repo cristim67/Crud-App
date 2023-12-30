@@ -1,12 +1,14 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 interface NotificationProps {
-
   message: string;
   type: string;
 }
 
-export const Notification: React.FC<NotificationProps> = ({ message, type }) => {
+export const Notification: React.FC<NotificationProps> = ({
+  message,
+  type,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

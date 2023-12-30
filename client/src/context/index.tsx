@@ -16,10 +16,15 @@ interface MaterialTailwindContextProps {
 
 type MaterialTailwindAction = { type: string; value: any };
 
-const MaterialTailwind = createContext<[MaterialTailwindState, React.Dispatch<MaterialTailwindAction>] | null>(null);
+const MaterialTailwind = createContext<
+  [MaterialTailwindState, React.Dispatch<MaterialTailwindAction>] | null
+>(null);
 MaterialTailwind.displayName = "MaterialTailwindContext";
 
-export function reducer(state: MaterialTailwindState, action: MaterialTailwindAction): MaterialTailwindState {
+export function reducer(
+  state: MaterialTailwindState,
+  action: MaterialTailwindAction,
+): MaterialTailwindState {
   switch (action.type) {
     case "OPEN_SIDENAV": {
       return { ...state, openSidenav: action.value };
@@ -30,7 +35,9 @@ export function reducer(state: MaterialTailwindState, action: MaterialTailwindAc
   }
 }
 
-export function MaterialTailwindControllerProvider({ children }: MaterialTailwindContextProps): JSX.Element {
+export function MaterialTailwindControllerProvider({
+  children,
+}: MaterialTailwindContextProps): JSX.Element {
   const initialState: MaterialTailwindState = {
     openSidenav: false,
     sidenavColor: "dark",
@@ -41,7 +48,8 @@ export function MaterialTailwindControllerProvider({ children }: MaterialTailwin
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
-  const value: [MaterialTailwindState, React.Dispatch<MaterialTailwindAction>] = useMemo(() => [controller, dispatch], [controller, dispatch]);
+  const value: [MaterialTailwindState, React.Dispatch<MaterialTailwindAction>] =
+    useMemo(() => [controller, dispatch], [controller, dispatch]);
 
   return (
     <MaterialTailwind.Provider value={value}>
@@ -49,12 +57,16 @@ export function MaterialTailwindControllerProvider({ children }: MaterialTailwin
     </MaterialTailwind.Provider>
   );
 }
-export function useMaterialTailwindController(): [MaterialTailwindState, React.Dispatch<MaterialTailwindAction>] {
+
+export function useMaterialTailwindController(): [
+  MaterialTailwindState,
+  React.Dispatch<MaterialTailwindAction>,
+] {
   const context = useContext(MaterialTailwind);
 
   if (!context) {
     throw new Error(
-      "useMaterialTailwindController should be used inside the MaterialTailwindControllerProvider."
+      "useMaterialTailwindController should be used inside the MaterialTailwindControllerProvider.",
     );
   }
 
@@ -67,5 +79,7 @@ MaterialTailwindControllerProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export const setOpenSidenav = (dispatch: React.Dispatch<MaterialTailwindAction>, value: boolean) =>
-  dispatch({ type: "OPEN_SIDENAV", value });
+export const setOpenSidenav = (
+  dispatch: React.Dispatch<MaterialTailwindAction>,
+  value: boolean,
+) => dispatch({ type: "OPEN_SIDENAV", value });

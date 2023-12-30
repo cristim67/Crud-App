@@ -1,54 +1,66 @@
-import React, { useState } from "react";
-import { StudentType } from "@genezio-sdk/crud-app_eu-central-1";
+import React, { useState, useEffect } from "react";
+import { Button } from "@material-tailwind/react";
+import { SubjectType } from "@genezio-sdk/crud-app_eu-central-1";
 
-interface ModalAddProps {
+interface ModalEditProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddStudent: (student: StudentType) => void;
+  onEdit: (editedSubject: SubjectType) => void;
+  initialData: SubjectType | null;
 }
 
-export const ModalAdd: React.FC<ModalAddProps> = ({
+export const ModalEdit: React.FC<ModalEditProps> = ({
   isOpen,
   onClose,
-  onAddStudent,
+  onEdit,
+  initialData,
 }) => {
-  const [formData, setFormData] = useState<StudentType>({
-    id: "",
-    firstName: "",
-    lastName: "",
-    birthDate: new Date(),
-    address: "",
-    email: "",
-    phone: "",
-  });
+  const [editedSubject, setEditedSubject] = useState<SubjectType>(
+    initialData || {
+      id: "",
+      subjectDescription: "",
+      subjectName: "",
+      professorId: "",
+      createdAt: new Date(),
+    },
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    // Update the state when initialData changes
+    setEditedSubject(
+      initialData || {
+        id: "",
+        subjectDescription: "",
+        subjectName: "",
+        professorId: "",
+        createdAt: new Date(),
+      },
+    );
+  }, [initialData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: name === "birthDate" ? new Date(value) : value,
+    setEditedSubject((prevSubject) => ({
+      ...prevSubject,
+      [name]: value,
     }));
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    onEdit(editedSubject);
+  };
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-
-    const phoneRegex = /^0[0-9]{9}$/;
-    if (formData.phone && !phoneRegex.test(formData.phone)) {
-      newErrors.phone = "Phone number is invalid";
-    }
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      onAddStudent(formData);
-      onClose();
-    }
-  };
-
   return (
     <div
       className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}
@@ -73,7 +85,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({
             <div className="relative p-4 bg-white rounded-lg shadow sm:p-5">
               <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Add Student
+                  Edit Subject
                 </h3>
                 <button
                   type="button"
@@ -96,140 +108,85 @@ export const ModalAdd: React.FC<ModalAddProps> = ({
                   <span className="sr-only">Close modal</span>
                 </button>
               </div>
-              <form onSubmit={handleSave}>
+              <form onSubmit={handleSubmit}>
                 <div className="text-red-500">
                   {Object.values(errors).map((error, index) => (
-                    <p key={index} className="mb-10">{error}</p>
+                    <p key={index} className="mb-10">
+                      {error}
+                    </p>
                   ))}
                 </div>
                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
                   <div>
                     <label
-                      htmlFor="firstName"
+                      htmlFor="subjectName"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      First Name
+                      Subject Name
                     </label>
                     <input
                       type="text"
-                      name="firstName"
-                      id="firstNameAdd"
-                      value={formData.firstName}
+                      name="subjectName"
+                      id="subjectNameEdit"
+                      value={editedSubject.subjectName}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type first name"
+                      placeholder="Type subject name"
                       required
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="lastName"
+                      htmlFor="subjectDescription"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Last Name
+                      Subject Description
                     </label>
                     <input
                       type="text"
-                      name="lastName"
-                      id="lastNameAdd"
-                      value={formData.lastName}
+                      name="subjectDescription"
+                      id="subjectDescriptionAdd"
+                      value={editedSubject.subjectDescription}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type last name"
+                      placeholder="Type subject description"
                       required
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="birthDate"
+                      htmlFor="professorId"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Birth Date
-                    </label>
-                    <input
-                      type="date"
-                      name="birthDate"
-                      id="birthDateAdd"
-                      value={formData.birthDate!.toISOString().split("T")[0]}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="address"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Address
+                      Professor ID
                     </label>
                     <input
                       type="text"
-                      name="address"
-                      id="addressAdd"
-                      value={formData.address}
+                      name="professorId"
+                      id="professorIdAdd"
+                      value={editedSubject.professorId}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type address"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="emailAdd"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type email"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      id="phoneAdd"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Type phone"
+                      placeholder="Type professor id"
                       required
                     />
                   </div>
                 </div>
-                <div className="flex justify-center">
-                  <button
+                <div className="flex justify-end">
+                  <Button
                     type="submit"
                     className="text-black border border-gray-400 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mt-4"
+                    placeholder
                   >
-                    <svg
-                      className="mr-1 -ml-1 w-6 h-6"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    Add new student
-                  </button>
+                    Save Changes
+                  </Button>
+                  <Button
+                    className="ml-2 text-black border border-gray-400 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mt-4"
+                    placeholder
+                    onClick={onClose}
+                  >
+                    Cancel
+                  </Button>
                 </div>
               </form>
             </div>

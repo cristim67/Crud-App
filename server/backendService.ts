@@ -518,6 +518,11 @@ export class BackendService {
     return registerStudentSubject != null;
   }
 
+  /**
+   * Method that can be used to search a student by id.
+   * @param id
+   * @returns {Promise<StudentType | null>} A student if the search was successfull, null otherwise.
+   */
   async searchStudentbyId(id: string): Promise<StudentType | null> {
     const student = await StudentModel.findOne({
       where: {
@@ -531,6 +536,11 @@ export class BackendService {
     return student;
   }
 
+  /**
+   * Method that can be used to search a subject by id.
+   * @param id
+   * @returns {Promise<SubjectType | null>} A subject if the search was successfull, null otherwise.
+   */
   async searchSubjectbyId(id: string): Promise<SubjectType | null> {
     const subject = await SubjectModel.findOne({
       where: {
@@ -544,6 +554,11 @@ export class BackendService {
     return subject;
   }
 
+  /**
+   * Method that can be used to search a professor by id.
+   * @param id
+   * @returns {Promise<ProfessorType | null>} A professor if the search was successfull, null otherwise.
+   */
   async searchProfessorbyId(id: string): Promise<ProfessorType | null> {
     const professor = await ProfessorModel.findOne({
       where: {
@@ -557,7 +572,14 @@ export class BackendService {
     return professor;
   }
 
-  async searchRegisterStudentSubjectbyId(id: string): Promise<RegisterStudentSubjectType | null> {
+  /**
+   * Method that can be used to search a registerStudentSubject by id.
+   * @param id
+   * @returns {Promise<RegisterStudentSubjectType | null>} A registerStudentSubject if the search was successfull, null otherwise.
+   */
+  async searchRegisterStudentSubjectbyId(
+    id: string,
+  ): Promise<RegisterStudentSubjectType | null> {
     const registerStudentSubject = await RegisterStudentSubjectModel.findOne({
       where: {
         id: id,

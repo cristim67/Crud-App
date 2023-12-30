@@ -4,23 +4,36 @@ interface ModalDeleteProps {
   onDelete: () => void;
 }
 
-export const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDelete }) => {
+export const ModalDelete: React.FC<ModalDeleteProps> = ({
+  isOpen,
+  onClose,
+  onDelete,
+}) => {
   return (
-    <div className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}>
+    <div
+      className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}
+    >
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+        <span
+          className="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+        >
           &#8203;
         </span>
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:max-w-2xl"
-             role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <div
+          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:max-w-2xl"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
           <div className="relative p-4 w-full h-full">
             <div className="relative p-4 bg-white rounded-lg shadow sm:p-5">
               <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Delete Student
+                  Delete Subject
                 </h3>
                 <button
                   type="button"
@@ -44,7 +57,7 @@ export const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDel
                 </button>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Are you sure you want to delete this student?
+                Are you sure you want to delete this subject?
               </p>
               <div className="flex justify-end mt-4">
                 <button
@@ -69,4 +82,3 @@ export const ModalDelete: React.FC<ModalDeleteProps> = ({ isOpen, onClose, onDel
     </div>
   );
 };
-
