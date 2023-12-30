@@ -67,7 +67,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddStuden
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       First Name
                     </label>
-                    <input type="text" name="firstName" id="firstName" value={formData.firstName}
+                    <input type="text" name="firstName" id="firstNameAdd" value={formData.firstName}
                            onChange={handleInputChange}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                            placeholder="Type first name" required />
@@ -77,7 +77,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddStuden
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Last Name
                     </label>
-                    <input type="text" name="lastName" id="lastName" value={formData.lastName}
+                    <input type="text" name="lastName" id="lastNameAdd" value={formData.lastName}
                            onChange={handleInputChange}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                            placeholder="Type last name" required />
@@ -87,7 +87,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddStuden
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Birth Date
                     </label>
-                    <input type="date" name="birthDate" id="birthDate"
+                    <input type="date" name="birthDate" id="birthDateAdd"
                            value={formData.birthDate!.toISOString().split("T")[0]}
                            onChange={handleInputChange}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -98,7 +98,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddStuden
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Address
                     </label>
-                    <input type="text" name="address" id="address" value={formData.address}
+                    <input type="text" name="address" id="addressAdd" value={formData.address}
                            onChange={handleInputChange}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                            placeholder="Type address" required />
@@ -108,7 +108,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddStuden
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Email
                     </label>
-                    <input type="email" name="email" id="email" value={formData.email}
+                    <input type="email" name="email" id="emailAdd" value={formData.email}
                            onChange={handleInputChange}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                            placeholder="Type email" required />
@@ -118,7 +118,7 @@ export const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddStuden
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Phone
                     </label>
-                    <input type="tel" name="phone" id="phone" value={formData.phone}
+                    <input type="tel" name="phone" id="phoneAdd" value={formData.phone}
                            onChange={handleInputChange}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                            placeholder="Type phone" required />

@@ -117,7 +117,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="text"
                       name="firstName"
-                      id="firstName"
+                      id="firstNameEdit"
                       value={editedStudent.firstName}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -135,7 +135,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="text"
                       name="lastName"
-                      id="lastName"
+                      id="lastNameEdit"
                       value={editedStudent.lastName}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -153,7 +153,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="date"
                       name="birthDate"
-                      id="birthDate"
+                      id="birthDateEdit"
                       value={editedStudent.birthDate
                         ? new Date(editedStudent.birthDate).toISOString().split("T")[0]
                         : ""}
@@ -173,7 +173,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="text"
                       name="address"
-                      id="address"
+                      id="addressEdit"
                       value={editedStudent.address}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -191,7 +191,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="email"
                       name="email"
-                      id="email"
+                      id="emailEdit"
                       value={editedStudent.email}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -209,7 +209,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="text"
                       name="phone"
-                      id="phone"
+                      id="phoneEdit"
                       value={editedStudent.phone}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
