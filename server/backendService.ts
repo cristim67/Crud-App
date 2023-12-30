@@ -517,4 +517,56 @@ export class BackendService {
 
     return registerStudentSubject != null;
   }
+
+  async searchStudentbyId(id: string): Promise<StudentType | null> {
+    const student = await StudentModel.findOne({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return student;
+  }
+
+  async searchSubjectbyId(id: string): Promise<SubjectType | null> {
+    const subject = await SubjectModel.findOne({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return subject;
+  }
+
+  async searchProfessorbyId(id: string): Promise<ProfessorType | null> {
+    const professor = await ProfessorModel.findOne({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return professor;
+  }
+
+  async searchRegisterStudentSubjectbyId(id: string): Promise<RegisterStudentSubjectType | null> {
+    const registerStudentSubject = await RegisterStudentSubjectModel.findOne({
+      where: {
+        id: id,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+    return registerStudentSubject;
+  }
 }

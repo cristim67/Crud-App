@@ -27,6 +27,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
       createdAt: new Date(),
     },
   );
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     // Update the state when initialData changes
@@ -54,10 +55,23 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add validation if needed
+    if (!validateForm()) {
+      return;
+    }
     onEdit(editedStudent);
   };
 
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    const phoneRegex = /^0[0-9]{9}$/;
+    if (editedStudent.phone && !phoneRegex.test(editedStudent.phone)) {
+      newErrors.phone = "Phone number is invalid";
+    }
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
   return (
     <div
       className={`fixed inset-0 overflow-y-auto ${isOpen ? "block" : "hidden"}`}
@@ -106,6 +120,13 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                 </button>
               </div>
               <form onSubmit={handleSubmit}>
+                <div className="text-red-500">
+                  {Object.values(errors).map((error, index) => (
+                    <p key={index} className="mb-10">
+                      {error}
+                    </p>
+                  ))}
+                </div>
                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
                   <div>
                     <label
@@ -154,9 +175,13 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                       type="date"
                       name="birthDate"
                       id="birthDateEdit"
-                      value={editedStudent.birthDate
-                        ? new Date(editedStudent.birthDate).toISOString().split("T")[0]
-                        : ""}
+                      value={
+                        editedStudent.birthDate
+                          ? new Date(editedStudent.birthDate)
+                              .toISOString()
+                              .split("T")[0]
+                          : ""
+                      }
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Type birth date"

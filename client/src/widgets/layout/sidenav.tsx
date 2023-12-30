@@ -5,8 +5,8 @@ import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "../../context";
 
 interface SidenavProps {
-  brandImg?: string;
-  brandName: string;
+  img?: string;
+  name: string;
   routes: {
     layout: string;
     title?: string;
@@ -22,7 +22,7 @@ interface SidenavTypes {
   [key: string]: string;
 }
 
-export function Sidenav({ brandName, routes }: SidenavProps) {
+export function Sidenav({ name, routes }: SidenavProps) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType, openSidenav } = controller;
   const sidenavTypes: SidenavTypes = {
@@ -44,7 +44,7 @@ export function Sidenav({ brandName, routes }: SidenavProps) {
             color="black"
             placeholder
           >
-            {brandName}
+            {name}
           </Typography>
         </Link>
         <IconButton
@@ -54,6 +54,7 @@ export function Sidenav({ brandName, routes }: SidenavProps) {
           ripple={false}
           className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
           onClick={() => setOpenSidenav(dispatch, false)}
+          aria-label={"Close Sidenav"}
           placeholder
         >
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
@@ -82,6 +83,7 @@ export function Sidenav({ brandName, routes }: SidenavProps) {
                       variant={isActive ? "gradient" : "text"}
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
+                      aria-label={name}
                       placeholder
                     >
                       {icon}

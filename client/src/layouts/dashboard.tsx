@@ -8,7 +8,7 @@ export function Dashboard() {
   // const isSmallScreen = useMediaQuery({ maxWidth: 1140 });
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
-      <Sidenav routes={routes} />
+      <Sidenav name="Crud App - Cristi Miloiu" routes={routes} />
       {/*{isSmallScreen && <Navbar   routes={routes} />}*/}
       <div className="p-4 xl:ml-80">
         <Routes>

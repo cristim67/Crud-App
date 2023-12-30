@@ -10,6 +10,7 @@ import { StudentType } from "@genezio-sdk/crud-app_eu-central-1";
 import { ModalAdd } from "../../widgets/layout/modelAdd.tsx";
 import { ModalDelete } from "../../widgets/layout/modelDelete.tsx";
 import { ModalEdit } from "../../widgets/layout/modelEdit.tsx";
+import { ModalSearch } from "../../widgets/layout/modelSearch.tsx";
 import { Notification } from "../../widgets/layout/notifications.tsx";
 
 interface NotificationState {
@@ -25,6 +26,7 @@ export const Students: React.FC = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [studentToDeleteId, setStudentToDeleteId] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [studentToEdit, setStudentToEdit] = useState<StudentType | null>(null);
   const [notification, setNotification] = useState<NotificationState>({
     message: "",
@@ -49,6 +51,17 @@ export const Students: React.FC = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const openModalSearch = () => setIsSearchModalOpen(true);
+  const closeModalSearch = () => setIsSearchModalOpen(false);
+  const handleSearchStudent = async (id: string) => {
+    const foundStudent = await BackendService.searchStudentbyId(id);
+    if (foundStudent) {
+      openEditModal(foundStudent);
+    } else {
+      showNotification("Student not found", "error");
+    }
+    closeModalSearch();
+  };
 
   const openDeleteModal = (id: string) => {
     setIsDeleteModalOpen(true);
@@ -149,6 +162,14 @@ export const Students: React.FC = () => {
             Students
             <div className="flex justify-end mr-3 mt-[-2rem]">
               <button
+                onClick={openModalSearch}
+                className="mr-2 block text-black bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                type="button"
+              >
+                Search Student
+              </button>
+
+              <button
                 onClick={openModal}
                 className="block text-black bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 type="button"
@@ -164,86 +185,92 @@ export const Students: React.FC = () => {
         >
           <table className="w-full min-w-[640px] table-auto">
             <thead>
-            <tr>
-              <th className="py-3 px-5 border-b border-blue-gray-50">ID</th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">
-                First Name
-              </th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">
-                Last Name
-              </th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">
-                Birth Date
-              </th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">Address</th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">Email</th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">Phone</th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">
-                Created At
-              </th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">Edit</th>
-              <th className="py-3 px-5 border-b border-blue-gray-50">Delete</th>
-            </tr>
+              <tr>
+                <th className="py-3 px-5 border-b border-blue-gray-50">ID</th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  First Name
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Last Name
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Birth Date
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Address
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Email
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Phone
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Created At
+                </th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">Edit</th>
+                <th className="py-3 px-5 border-b border-blue-gray-50">
+                  Delete
+                </th>
+              </tr>
             </thead>
             <tbody>
-            {students.map(
-              ({
-                 id,
-                 firstName,
-                 lastName,
-                 birthDate,
-                 address,
-                 email,
-                 phone,
-                 createdAt,
-               }) => {
-                const className = "py-3 px-5 border-b border-blue-gray-50";
+              {students.map(
+                ({
+                  id,
+                  firstName,
+                  lastName,
+                  birthDate,
+                  address,
+                  email,
+                  phone,
+                  createdAt,
+                }) => {
+                  const className = "py-3 px-5 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={id}>
-                    <td className={className}>{id}</td>
-                    <td className={className}>{firstName}</td>
-                    <td className={className}>{lastName}</td>
-                    <td className={className}>
-                      {new Date(birthDate!)
-                        .toISOString()
-                        .split("T")[0]}
-                    </td>
-                    <td className={className}>{address}</td>
-                    <td className={className}>{email}</td>
-                    <td className={className}>{phone}</td>
-                    <td className={className}>{createdAt?.toString()}</td>
-                    <td className={className}>
-                      <button
-                        onClick={() =>
-                          openEditModal({
-                            id,
-                            firstName,
-                            lastName,
-                            birthDate,
-                            address,
-                            email,
-                            phone,
-                            createdAt,
-                          })
-                        }
-                        className="text-blue-500 hover:text-blue-700 focus:outline-none"
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td className={className}>
-                      <button
-                        onClick={() => openDeleteModal(id)}
-                        className="text-red-500 hover:text-red-700 focus:outline-none"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              }
-            )}
+                  return (
+                    <tr key={id}>
+                      <td className={className}>{id}</td>
+                      <td className={className}>{firstName}</td>
+                      <td className={className}>{lastName}</td>
+                      <td className={className}>
+                        {new Date(birthDate!).toISOString().split("T")[0]}
+                      </td>
+                      <td className={className}>{address}</td>
+                      <td className={className}>{email}</td>
+                      <td className={className}>{phone}</td>
+                      <td className={className}>{createdAt?.toString()}</td>
+                      <td className={className}>
+                        <button
+                          onClick={() =>
+                            openEditModal({
+                              id,
+                              firstName,
+                              lastName,
+                              birthDate,
+                              address,
+                              email,
+                              phone,
+                              createdAt,
+                            })
+                          }
+                          className="text-blue-500 hover:text-blue-700 focus:outline-none"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                      <td className={className}>
+                        <button
+                          onClick={() => openDeleteModal(id)}
+                          className="text-red-500 hover:text-red-700 focus:outline-none"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                },
+              )}
             </tbody>
           </table>
         </CardBody>
@@ -262,12 +289,24 @@ export const Students: React.FC = () => {
         onDelete={handleDeleteStudent}
       />
 
+      <ModalSearch
+        isOpen={isSearchModalOpen}
+        onClose={closeModalSearch}
+        onSearch={handleSearchStudent}
+      />
+
       <ModalEdit
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
         onEdit={async (editedStudent: StudentType) => {
-
-          if(editedStudent.firstName === undefined || editedStudent.lastName === undefined || editedStudent.birthDate === undefined || editedStudent.address === undefined || editedStudent.email === undefined || editedStudent.phone === undefined){
+          if (
+            editedStudent.firstName === undefined ||
+            editedStudent.lastName === undefined ||
+            editedStudent.birthDate === undefined ||
+            editedStudent.address === undefined ||
+            editedStudent.email === undefined ||
+            editedStudent.phone === undefined
+          ) {
             alert("Please fill all fields");
             return;
           }
@@ -280,7 +319,7 @@ export const Students: React.FC = () => {
               editedStudent.birthDate,
               editedStudent.address,
               editedStudent.email,
-              editedStudent.phone
+              editedStudent.phone,
             );
             closeEditModal();
             if (response) {
