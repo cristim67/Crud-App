@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@material-tailwind/react";
-import { SubjectType } from "@genezio-sdk/crud-app_eu-central-1";
+import {
+  BackendService,
+  SubjectType,
+} from "@genezio-sdk/crud-app_eu-central-1";
 
 interface ModalEditProps {
   isOpen: boolean;
@@ -27,7 +30,6 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    // Update the state when initialData changes
     setEditedSubject(
       initialData || {
         id: "",
@@ -47,16 +49,29 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) {
+    if (await !validateForm()) {
       return;
     }
     onEdit(editedSubject);
   };
 
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors: Record<string, string> = {};
+
+    if (editedSubject.professorId === undefined) {
+      newErrors.professorId = "Professor ID not found";
+    }
+    if (editedSubject.professorId != null) {
+      const response = await BackendService.searchProfessorbyId(
+        editedSubject.professorId,
+      );
+      if (!response) {
+        newErrors.professorId = "Professor ID not found";
+      }
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;

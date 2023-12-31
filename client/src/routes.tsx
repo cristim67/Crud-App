@@ -1,4 +1,6 @@
-import { HomeIcon } from "@heroicons/react/24/solid";
+import { AcademicCapIcon } from "@heroicons/react/24/solid";
+import { UsersIcon } from "@heroicons/react/24/solid";
+import { BookOpenIcon } from "@heroicons/react/24/solid";
 import { Students } from "./pages/dashboard/students.tsx";
 import { Subjects } from "./pages/dashboard/subjects.tsx";
 import { Professors } from "./pages/dashboard/professors.tsx";
@@ -13,7 +15,7 @@ export const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
+        icon: <UsersIcon {...icon} />,
         name: "Students",
         path: "/students",
         element: <Students />,
@@ -24,18 +26,7 @@ export const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
-        name: "Subjects",
-        path: "/subjects",
-        element: <Subjects />,
-      },
-    ],
-  },
-  {
-    layout: "dashboard",
-    pages: [
-      {
-        icon: <HomeIcon {...icon} />,
+        icon: <UsersIcon {...icon} />,
         name: "Professors",
         path: "/professors",
         element: <Professors />,
@@ -46,7 +37,18 @@ export const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
+        icon: <BookOpenIcon {...icon} />,
+        name: "Subjects",
+        path: "/subjects",
+        element: <Subjects />,
+      },
+    ],
+  },
+  {
+    layout: "dashboard",
+    pages: [
+      {
+        icon: <AcademicCapIcon {...icon} />,
         name: "RegisterStudentSubject",
         path: "/registerStudentSubject",
         element: <RegisterStudentSubjects />,

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { RegisterStudentSubjectType } from "@genezio-sdk/crud-app_eu-central-1";
+import {
+  BackendService,
+  RegisterStudentSubjectType,
+} from "@genezio-sdk/crud-app_eu-central-1";
 
 interface ModalAddProps {
   isOpen: boolean;
@@ -31,16 +34,39 @@ export const ModalAdd: React.FC<ModalAddProps> = ({
       [name]: name === "birthDate" ? new Date(value) : value,
     }));
   };
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors: Record<string, string> = {};
 
+    if (formData.studentId === undefined) {
+      newErrors.studentId = "Student ID not found";
+    }
+    if (formData.studentId != null) {
+      const response = await BackendService.searchStudentbyId(
+        formData.studentId,
+      );
+      console.log(response);
+      if (!response) {
+        newErrors.studentId = "Student ID not found";
+      }
+    }
+    if (formData.subjectId === undefined) {
+      newErrors.subjectId = "Subject ID not found";
+    }
+    if (formData.subjectId != null) {
+      const response = await BackendService.searchSubjectbyId(
+        formData.subjectId,
+      );
+      if (!response) {
+        newErrors.subjectId = "Subject ID not found";
+      }
+    }
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (await validateForm()) {
       onAddRegisterStudentSubject(formData);
       onClose();
     }

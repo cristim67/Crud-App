@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@material-tailwind/react";
-import { RegisterStudentSubjectType } from "@genezio-sdk/crud-app_eu-central-1";
+import {
+  BackendService,
+  RegisterStudentSubjectType,
+} from "@genezio-sdk/crud-app_eu-central-1";
 
 interface ModalEditProps {
   isOpen: boolean;
@@ -48,17 +51,39 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) {
+    if (await !validateForm()) {
       return;
     }
     onEdit(editedRegisterStudentSubject);
   };
 
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors: Record<string, string> = {};
 
+    if (editedRegisterStudentSubject.studentId === undefined) {
+      newErrors.studentId = "Student ID not found";
+    }
+    if (editedRegisterStudentSubject.studentId != null) {
+      const response = await BackendService.searchStudentbyId(
+        editedRegisterStudentSubject.studentId,
+      );
+      if (!response) {
+        newErrors.studentId = "Student ID not found";
+      }
+    }
+    if (editedRegisterStudentSubject.subjectId === undefined) {
+      newErrors.subjectId = "Subject ID not found";
+    }
+    if (editedRegisterStudentSubject.subjectId != null) {
+      const response = await BackendService.searchSubjectbyId(
+        editedRegisterStudentSubject.subjectId,
+      );
+      if (!response) {
+        newErrors.subjectId = "Subject ID not found";
+      }
+    }
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;

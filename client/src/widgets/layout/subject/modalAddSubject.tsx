@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { SubjectType } from "@genezio-sdk/crud-app_eu-central-1";
+import {
+  BackendService,
+  SubjectType,
+} from "@genezio-sdk/crud-app_eu-central-1";
 
 interface ModalAddProps {
   isOpen: boolean;
@@ -27,19 +30,28 @@ export const ModalAdd: React.FC<ModalAddProps> = ({
       [name]: value,
     }));
   };
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.professorId) {
-      newErrors.professorId = "Professor id is required";
+    if (formData.professorId === undefined) {
+      newErrors.professorId = "Professor ID not found";
     }
+    if (formData.professorId != null) {
+      const response = await BackendService.searchProfessorbyId(
+        formData.professorId,
+      );
+      if (!response) {
+        newErrors.professorId = "Professor ID not found";
+      }
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (await validateForm()) {
       onAddSubject(formData);
       onClose();
     }
