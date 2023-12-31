@@ -51,7 +51,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (await !validateForm()) {
+    if (!(await validateForm())) {
       return;
     }
     onEdit(editedSubject);
