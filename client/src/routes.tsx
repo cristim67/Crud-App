@@ -2,6 +2,7 @@ import { HomeIcon } from "@heroicons/react/24/solid";
 import { Students } from "./pages/dashboard/students.tsx";
 import { Subjects } from "./pages/dashboard/subjects.tsx";
 import { Professors } from "./pages/dashboard/professors.tsx";
+import { RegisterStudentSubjects } from "./pages/dashboard/registerStudentSubjects.tsx";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -38,6 +39,17 @@ export const routes = [
         name: "Professors",
         path: "/professors",
         element: <Professors />,
+      },
+    ],
+  },
+  {
+    layout: "dashboard",
+    pages: [
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "RegisterStudentSubject",
+        path: "/registerStudentSubject",
+        element: <RegisterStudentSubjects />,
       },
     ],
   },
