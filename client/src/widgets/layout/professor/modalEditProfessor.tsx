@@ -27,7 +27,6 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    // Update the state when initialData changes
     setEditedprofessor(
       initialData || {
         id: "",
@@ -128,7 +127,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="text"
                       name="firstName"
-                      id="firstNameEdit"
+                      id="firstNameProfessorEdit"
                       value={editedprofessor.firstName}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -146,7 +145,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="text"
                       name="lastName"
-                      id="lastNameEdit"
+                      id="lastNameProfessorEdit"
                       value={editedprofessor.lastName}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -164,7 +163,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({
                     <input
                       type="email"
                       name="email"
-                      id="emailEdit"
+                      id="emailEditProfessor"
                       value={editedprofessor.email}
                       onChange={handleInputChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"

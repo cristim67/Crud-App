@@ -1,5 +1,5 @@
 import { GenezioDeploy } from "@genezio/types";
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import { StudentModel, StudentType } from "./db/Student";
 import { SubjectModel, SubjectType } from "./db/Subject";
 import { ProfessorModel, ProfessorType } from "./db/Professor";
@@ -69,7 +69,7 @@ export class BackendService {
         },
         subjectName: DataTypes.STRING,
         subjectDescription: DataTypes.STRING,
-        professorId: DataTypes.STRING,
+        professorId: DataTypes.UUID,
         createdAt: DataTypes.DATE,
       },
       {
@@ -103,8 +103,8 @@ export class BackendService {
           primaryKey: true,
           defaultValue: DataTypes.UUIDV4,
         },
-        studentId: DataTypes.STRING,
-        subjectId: DataTypes.STRING,
+        studentId: DataTypes.UUID,
+        subjectId: DataTypes.UUID,
         grade: DataTypes.INTEGER,
         dateRegistered: DataTypes.DATE,
         createdAt: DataTypes.DATE,
@@ -524,7 +524,7 @@ export class BackendService {
    * @returns {Promise<StudentType | null>} A student if the search was successfull, null otherwise.
    */
   async searchStudentbyId(id: string): Promise<StudentType | null> {
-    const student = await StudentModel.findOne({
+    return await StudentModel.findOne({
       where: {
         id: id,
       },
@@ -532,8 +532,6 @@ export class BackendService {
       console.error(error);
       return null;
     });
-
-    return student;
   }
 
   /**
@@ -542,7 +540,7 @@ export class BackendService {
    * @returns {Promise<SubjectType | null>} A subject if the search was successfull, null otherwise.
    */
   async searchSubjectbyId(id: string): Promise<SubjectType | null> {
-    const subject = await SubjectModel.findOne({
+    return await SubjectModel.findOne({
       where: {
         id: id,
       },
@@ -550,8 +548,6 @@ export class BackendService {
       console.error(error);
       return null;
     });
-
-    return subject;
   }
 
   /**
@@ -560,7 +556,7 @@ export class BackendService {
    * @returns {Promise<ProfessorType | null>} A professor if the search was successfull, null otherwise.
    */
   async searchProfessorbyId(id: string): Promise<ProfessorType | null> {
-    const professor = await ProfessorModel.findOne({
+    return await ProfessorModel.findOne({
       where: {
         id: id,
       },
@@ -568,8 +564,6 @@ export class BackendService {
       console.error(error);
       return null;
     });
-
-    return professor;
   }
 
   /**
@@ -580,7 +574,7 @@ export class BackendService {
   async searchRegisterStudentSubjectbyId(
     id: string,
   ): Promise<RegisterStudentSubjectType | null> {
-    const registerStudentSubject = await RegisterStudentSubjectModel.findOne({
+    return await RegisterStudentSubjectModel.findOne({
       where: {
         id: id,
       },
@@ -588,7 +582,5 @@ export class BackendService {
       console.error(error);
       return null;
     });
-
-    return registerStudentSubject;
   }
 }
