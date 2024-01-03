@@ -9,14 +9,37 @@ import {
 } from "./db/RegisterStudentSubject";
 import * as pg from "pg";
 
+/**
+ * @class BackendService
+ * @method createStudent
+ * @method createSubject
+ * @method createProfessor
+ * @method createRegisterStudentSubject
+ * @method getStudents
+ * @method getSubjects
+ * @method getProfessors
+ * @method getRegisterStudentSubject
+ * @method deleteStudent
+ * @method deleteSubject
+ * @method deleteProfessor
+ * @method deleteRegisterStudentSubject
+ * @method updateStudent
+ * @method updateSubject
+ * @method updateProfessor
+ * @method updateRegisterStudentSubject
+ * @method searchStudentbyId
+ * @method searchSubjectbyId
+ * @method searchProfessorbyId
+ * @method searchRegisterStudentSubjectbyId
+ * @description This class is responsible for managing the database operations.
+ */
 @GenezioDeploy()
 export class BackendService {
   sequelize: Sequelize | undefined;
 
   /**
-   * The constructor of the class.
-   * It will initialize the connection to the database.
    * @constructor
+   * @description The constructor of the class. It will initialize the connection to the database.
    */
   constructor() {
     if (process.env.POSTGRESQL_URL == null) {
@@ -117,7 +140,9 @@ export class BackendService {
   }
 
   /**
-   * Private method used to connect to the DB.
+   * @method #connect
+   * @description Private method used to connect to the DB.
+   * @private
    */
   async #connect() {
     console.log("Connecting to the database");
@@ -135,7 +160,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to create a new user.
+   * @method createStudent
+   * @description Method that can be used to create a new user.
    * @param {string} firstName The student's first name.
    * @param {string} lastName The student's last name.
    * @param {string} birthDate The student's email.
@@ -169,7 +195,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to create a new user.
+   * @method createSubject
+   * @description Method that can be used to create a new user.
    * @param {string} subjectName The subject's name.
    * @param {string} subjectDescription The subject's description.
    * @param {string} professorId The subject's professor id.
@@ -194,7 +221,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to create a new user.
+   * @method createProfessor
+   * @description Method that can be used to create a new user.
    * @param {string} firstName The professor's first name.
    * @param {string} lastName The professor's last name.
    * @param {string} email The professor's email.
@@ -219,7 +247,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to create a new user.
+   * @method createRegisterStudentSubject
+   * @description Method that can be used to create a new user.
    * @param {string} studentId The registerStudentSubject's student id.
    * @param {string} subjectId The registerStudentSubject's subject id.
    * @param {string} grade The registerStudentSubject's grade.
@@ -248,7 +277,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to get all the students.
+   * @method getStudents
+   * @description Method that can be used to get all the students.
    * @returns {Promise<StudentType[]>} An array of students.
    */
   async getStudents(): Promise<StudentType[]> {
@@ -263,7 +293,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to get all the subjects.
+   * @method getSubjects
+   * @description Method that can be used to get all the subjects.
    * @returns {Promise<SubjectType[]>} An array of subjects.
    */
   async getSubjects(): Promise<SubjectType[]> {
@@ -276,7 +307,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to get all the professors.
+   * @method getProfessors
+   * @description Method that can be used to get all the professors.
    * @returns {Promise<ProfessorType[]>} An array of professors.
    */
   async getProfessors(): Promise<ProfessorType[]> {
@@ -289,7 +321,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to get all the registerStudentSubject.
+   * @method getRegisterStudentSubject
+   * @description Method that can be used to get all the registerStudentSubject.
    * @returns {Promise<RegisterStudentSubjectType[]>} An array of registerStudentSubject.
    */
   async getRegisterStudentSubject(): Promise<RegisterStudentSubjectType[]> {
@@ -303,7 +336,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to delete a student.
+   * @method getStudentSubjects
+   * @description Method that can be used to delete a student.
    * @param id
    * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
    */
@@ -321,7 +355,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to delete a subject.
+   * @method getStudentSubjects
+   * @description Method that can be used to delete a subject.
    * @param id
    * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
    */
@@ -339,7 +374,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to delete a professor.
+   * @method getStudentSubjects
+   * @description Method that can be used to delete a professor.
    * @param id
    * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
    */
@@ -357,7 +393,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to delete a registerStudentSubject.
+   * @method getStudentSubjects
+   * @description Method that can be used to delete a registerStudentSubject.
    * @param id
    * @returns {Promise<boolean>} A boolean that is true if the deletion was successfull, false otherwise.
    */
@@ -375,7 +412,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to update a student by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to update a student by id.
    * @param id
    * @param firstName
    * @param lastName
@@ -417,7 +455,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to update a subject by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to update a subject by id.
    * @param id
    * @param subjectName
    * @param subjectDescription
@@ -450,7 +489,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to update a professor by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to update a professor by id.
    * @param id
    * @param firstName
    * @param lastName
@@ -483,7 +523,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to update a registerStudentSubject by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to update a registerStudentSubject by id.
    * @param id
    * @param studentId
    * @param subjectId
@@ -519,7 +560,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to search a student by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to search a student by id.
    * @param id
    * @returns {Promise<StudentType | null>} A student if the search was successfull, null otherwise.
    */
@@ -535,7 +577,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to search a subject by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to search a subject by id.
    * @param id
    * @returns {Promise<SubjectType | null>} A subject if the search was successfull, null otherwise.
    */
@@ -551,7 +594,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to search a professor by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to search a professor by id.
    * @param id
    * @returns {Promise<ProfessorType | null>} A professor if the search was successfull, null otherwise.
    */
@@ -567,7 +611,8 @@ export class BackendService {
   }
 
   /**
-   * Method that can be used to search a registerStudentSubject by id.
+   * @method getStudentSubjects
+   * @description Method that can be used to search a registerStudentSubject by id.
    * @param id
    * @returns {Promise<RegisterStudentSubjectType | null>} A registerStudentSubject if the search was successfull, null otherwise.
    */
