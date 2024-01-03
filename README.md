@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Miloiu Cristi 
 Grupa 432A
 
@@ -203,3 +204,6 @@ unui student
 > \-
 > [[https://docs.github.com/en]{.underline}](https://docs.github.com/en) -
 > [[https://chat.openai.com/]{.underline}](https://chat.openai.com/)
+=======
+Crud-App
+>>>>>>> b4bdaef8a4f3432e0d15c37782e6340cb1dfec81
