@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Miloiu Cristi 
 Grupa 432A
 
