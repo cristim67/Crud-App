@@ -1,6 +1,6 @@
 # Simple crud app example
 
-This is a simple project with a server and a client for a user management app. The server is built with [Node.js](https://nodejs.org/en/) and MongoDB. The client is built with [React](https://reactjs.org/).
+This is a simple project with a server and a client for a crud app. The server is built with [Node.js](https://nodejs.org/en/) and Postgresql. The client is built with [React](https://reactjs.org/).
 
 ## Prerequisites
 
