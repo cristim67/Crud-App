@@ -1,208 +1,88 @@
-Miloiu Cristi 
-Grupa 432A
+# Simple crud app example
 
-> Documentatie Proiect Crud-App Typescript 
+This is a simple project with a server and a client for a user management app. The server is built with [Node.js](https://nodejs.org/en/) and MongoDB. The client is built with [React](https://reactjs.org/).
 
-> Programarea Interfețelor pentru Baze de Date
+## Prerequisites
 
-Github:
-https://github.com/cristim67/Crud-App
+- ✅ [NodeJs](https://nodejs.org) >= 16.0.0
+- ✅ [npm](https://www.npmjs.com/)
+- ✅ [genezio](https://genez.io/)
 
-Link website:
-(https://pibd.cristimiloiu.com/)
+## Project Structure
 
-Introducere:
+Inside the project folder, you will find the following files and folders:
 
-Proiectul are ca scop implementarea unui sistem de gestionare a datelor
-pentru o instituție academică, folosind tehnologii moderne și eficiente.
+```
+├── server/
+│   ├── db/
+│   ├── backendService.ts
+│   ├── package.json
+│   └── tsconfig.json
+├── client/
+│   ├── src/
+│   ├── package.json
+|   └── tsconfig.json
+├── genezio.yaml
+├── README.md
+├── .genezioignore
+```
 
-Tehnologii utilizate:
+Genezio looks for `genezio.yaml` to read the settings for deploying the project or for spinning a local dev server for testing.
 
-Version Control: Git, Github, GitHub Actions.
+The `backend` directory contains the implementation of the server side of the project.
 
-**Git** oferă posibilitatea de urmărire a modificărilor în codul sursă
-al proiectului. Acesta permite dezvoltatorilor să lucreze colaborativ,
-gestionând schimbările în timp și furnizând un istoric detaliat al
-fiecărei versiuni.
+The `frontend` directory contains a simple React application that talks with the genezio server.
 
-**Github** reprezintă o platformă de hosting pentru proiecte gestionate
-cu ajutorul sistemului Git.
+## Run the project
 
-**GitHub** **Actions** este un serviciu oferit de GitHub pentru
-automatizarea fluxurilor de lucru în cadrul proiectelor software.
-Această platformă permite configurarea și rularea automată a diverselor
-acțiuni în răspuns la evenimente specifice, cum ar fi push-uri, pull
-requests sau crearea de tag-uri. GitHub Actions facilitează integrarea
-continua (CI) și livrarea continua (CD) într-un mod flexibil și
-personalizat.
+### Clone this example
 
-Standardizarea și identificarea automată a erorilor: ESlint
+Clone the repository:
 
-**ESLint** este o unealtă de analiză statică a codului sursă pentru
-JavaScript și TypeScript, utilizată pentru identificarea și corectarea
-erorilor de stil, neregulilor și a altor probleme potențiale. ESLint
-ajută la menținerea unui cod sursă curat, coerent și în conformitate cu
-standardele definite de proiect și echipă.
+```
+git clone https://github.com/cristim67/Crud-App
+```
 
-Backend: Typescript, Genezio, Sequelize, Postgresql.
+### Test your project locally
 
-**Typescript** este un limbaj de programare tipizat care adaugă tipuri
-statice peste JavaScript. Backend-ul este dezvoltat în TypeScript pentru
-a asigura calitatea și corectitudinea codului, fiind mai ușor de scalat
-pe viitor.
+Test the project locally:
 
-**Genezio** reprezintă o paradigmă de cloud native care facilitează
-dezvoltarea simplificată a aplicațiilor moderne. Aceasta furnizează nu
-doar opțiuni pentru găzduirea aplicațiilor, ci și o modalitate mai
-accesibilă de a scrie backend-ul în clase, ce ulterior vor fi
-implementate sub forma unei aplicații serverless.
+```
+genezio local
+```
 
-**Sequelize** este un ORM (Object-Relational Mapping) pentru Node.js,
-care facilitează interacțiunea cu bazele de date relaționale, cum ar fi
-PostgreSQL, MySQL și SQLite. ORM-ul acționează ca un strat intermediar
-între aplicația Node.js și baza de date, permițând dezvoltatorilor să
-opereze cu datele utilizând obiecte și modele JavaScript în locul
-limbajului specific bazei de date.
+Open a new terminal, navigate to the following directory, and run npm start to launch the application:
 
-**Postgresql** este un sistem de gestiune a bazelor de date relaționale,
-oferind o structură robustă pentru manipularea datelor. A fost ales
-pentru a susține stocarea eficientă a informațiilor.
+```
+cd ./client
+npm run install-local-sdk
+npm start
+```
 
-Frontend: React cu TypeScript, Vite și Tailwind CSS
+### Deploy your project with genezio
 
-**React** este o bibliotecă JavaScript pentru construirea interfețelor
-de utilizator, iar TypeScript adaugă tipuri statice pentru a îmbunătăți
-dezvoltarea și mentenanța codului.
+If you wish to deploy your project to the Genezio infrastructure, follow these steps:
 
-**Vite** este un instrument de construire a proiectului React extrem de
-rapid, care optimizează procesul de dezvoltare prin intermediul
-importurilor ESM (ECMAScript Modules). Acesta oferă o experiență de
-dezvoltare foarte eficientă. Sistemul de bundling fiind scris in Rust.
+Log in to Genezio using the command genezio login:
 
-**Tailwind** **CSS** este un framework de CSS utilitar care permite
-construirea rapidă și eficientă a interfețelor de utilizator. El
-furnizează clase predefinite pentru stilizarea elementelor, facilitând
-astfel procesul de dezvoltare.
+```
+genezio login
+```
 
-![](photo-readme/ue5s5pth.png)
+Deploy your project using the genezio deploy command from the `./genezio-examples/typescript/crud-app` directory.
 
-Implementare si functionalitati.
+```
+genezio deploy
+```
 
-Baza de date este formată din 4 tabele. Structura acesteia fiind:
+## Commands
 
-> A. Tabela studenți are următoarele coloane \[1\]:
->
-> ![](photo-readme/z1wdpyrs.png)
-> Fig 1: Structură tabela studenți.
->
-> B. Tabela subiecte are următoarele coloane \[2\].
->
-> ![](photo-readme/0nkc3ykj.png)
-> ![](photo-readme/chra13ii.png)
-> Fig 2: Structura tabela subiecte.
->
-> C. Tabela profesori are următoarele coloane \[3\].
->
-> Fig 3: Structura tabela profesori
->
-> D. RegisterStudentSubject
->
-> Fig 4: Structura tabela înregistrare legatura student-subiect
+All commands are run from the root of the project, from a terminal:
 
-![](photo-readme/esql1pfe.png)
-![](photo-readme/wv4pw5tr.png)
-
-Diagrama bazei de date asociată tabelelor este reprezentată în figura de
-mai jos \[5\]:
-
-> Fig 5: Diagrama bazei de date
-
-Pe partea de backend aplicația are o clasa care stie sa faca următoarele
-operații \[6\]:
-
-> Fig 6: Clasa BackendService, structura.
-
-![](photo-readme/2z2pwcrk.png)
-![](photo-readme/sr4biw4g.png)
-Functionalitati principale CRUD:
-
-CRUD - Create, read, update, delete.
-
-> A. Create - Functionalitatea oferă posibilitatea de a creare o
-> entitate pentru oricare tabela existența.
->
-> Exemplu - Crearea unui student \[7\],\[8\],\[9\].
->
-> Fig 7: Descrierea metodei createStudent.
->
-> Fig 8: Codul sursă al metodei createStudent.
-
-![](photo-readme/yhlyjxoc.png)
-![](photo-readme/vvlfjmpc.png)
-![](photo-readme/ynjbhjnw.png)
-> Fig 9: Interfata grafica a Modalului pentru adaugarea unui student
->
-> B. Read - Functionalitatea oferă posibilitatea de a citi, toate
-> entitățile unei tabele.
->
-> Exemplu - Citirea tuturor studentilor \[10\], \[11\], \[12\].
->
-> Fig 10: Descrierea metodei getStudents.
->
-> Fig 11: Codul sursă pentru metoda getStudents.
-
-![](photo-readme/oizjvwcq.png)
-![](photo-readme/zsocigrf.png)
-> Fig 12: Interfața grafica de afișare a studentilor.
->
-> C. Update - Functionalitatea oferă posibilitatea de a edita
-> proprietățile unei entități specifice.
->
-> Exemplu - Modificarea datelor unui student \[12\], \[13\], \[14\].
->
-> Fig 12: Descrierea metodei updateStudent.
-
-![](photo-readme/ihlqcvwb.png)
-
-![](photo-readme/ks0wxc3g.png)
-> Fig 13: Codul sursă pentru metoda updateStudent.
-
-Fig14: Interfata grafica pentru Modalul care se ocupă cu actualizarea
-unui student
-
-![](photo-readme/yzf4rftl.png)
-![](photo-readme/5wcdlrpj.png)
-
-> D. Delete - Functionalitatea oferă posibilitatea de a șterge o
-> entitate specifice.
->
-> Exemplu - Ștergerea unui student \[14\], \[15\], \[16\].
->
-> Fig 14: Descrierea metodei deleteStudent.
->
-> Fig 15: Codul sursă pentru metoda deleteStudent.
-
-![](photo-readme/rdmtueod.png)
-
-> Fig 16: Interfata grafica a Modalul de ștergere a unui student.
->
-> Bibliografie:
->
-> \-
-> [[https://www.material-tailwind.com/]{.underline}](https://www.material-tailwind.com/) -
-> [[https://vitejs.dev/guide/]{.underline}](https://vitejs.dev/guide/)
->
-> \-
-> [[https://docs.genez.io/genezio-documentation/]{.underline}](https://docs.genez.io/genezio-documentation/) -
-> [[https://heroicons.com/]{.underline}](https://heroicons.com/)
->
-> \-
-> [[https://react.dev/reference/react]{.underline}](https://react.dev/reference/react) -
-> [[https://neon.tech/]{.underline}](https://neon.tech/)
->
-> \-
-> [[https://docs.github.com/en]{.underline}](https://docs.github.com/en) -
-> [[https://chat.openai.com/]{.underline}](https://chat.openai.com/)
-=======
-Crud-App
->>>>>>> b4bdaef8a4f3432e0d15c37782e6340cb1dfec81
+| Command                  | Action                       |
+| :----------------------- | :--------------------------- |
+| `npm install -g genezio` | Installs genezio globally    |
+| `genezio login`          | Logs in to genezio           |
+| `genezio local`          | Starts a local server        |
+| `genezio deploy`         | Deploys a production project |
+| `genezio --help`         | Get help using genezio       |
