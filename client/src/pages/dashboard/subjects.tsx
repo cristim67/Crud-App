@@ -161,8 +161,8 @@ export const Subjects: React.FC = () => {
             placeholder="true"
             className="mx-auto"
           >
-            Subjects
-            <div className="flex justify-end mr-3 mt-[-2rem]">
+            <div className="hidden md:block">Subjects</div>
+            <div className="flex justify-end md:mr-3 mt-0 md:mt-[-2rem] ">
               <button
                 onClick={openModalSearch}
                 className="mr-2 block text-black bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
