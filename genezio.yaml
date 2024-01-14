@@ -4,7 +4,7 @@ language: ts
 cloudProvider: genezio
 scripts:
   preBackendDeploy: npm install
-  preFrontendDeploy: npm install @genezio-sdk/crud-app_eu-central-1 && npm install && npm run build
+  preFrontendDeploy: cd client && npm add @genezio-sdk/crud-app_eu-central-1 && npm install @genezio-sdk/crud-app_eu-central-1 && npm install && npm run build
   preStartLocal: cd client && npm install && cd ../server && npm install
 frontend:
   path: client/dist
