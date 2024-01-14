@@ -11,6 +11,7 @@
     "install-prod-sdk": "npm install @genezio-sdk/crud-app_eu-central-1@1.0.0-prod"
   },
   "dependencies": {
+    "@genezio-sdk/crud-app_eu-central-1": "^1.0.0-prod",
     "@genezio/vite-plugin-genezio": "^1.0.4",
     "@heroicons/react": "2.0.18",
     "@material-tailwind/react": "2.1.4",
