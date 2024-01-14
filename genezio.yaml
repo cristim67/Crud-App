@@ -4,7 +4,7 @@ language: ts
 cloudProvider: genezio
 scripts:
   preBackendDeploy: npm install
-  preFrontendDeploy: npm install @genezio-sdk/crud-app_eu-central-1 && npm install && npm run build
+  preFrontendDeploy: npm run install-prod-sdk && npm install && npm run build
 frontend:
   path: client/dist
   subdomain: crimson-linear-snail
