@@ -24,7 +24,6 @@
     "react-router-dom": "6.17.0"
   },
   "devDependencies": {
-    "@genezio/vite-plugin-genezio": "^1.0.4",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
@@ -38,6 +37,21 @@
     "tailwindcss": "^3.3.6",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-android-arm-eabi": "4.9.0",
+    "@rollup/rollup-android-arm64": "4.9.0",
+    "@rollup/rollup-darwin-arm64": "4.9.0",
+    "@rollup/rollup-darwin-x64": "4.9.1",
+    "@rollup/rollup-linux-arm-gnueabihf": "4.9.0",
+    "@rollup/rollup-linux-arm64-gnu": "4.9.0",
+    "@rollup/rollup-linux-arm64-musl": "4.9.0",
+    "@rollup/rollup-linux-riscv64-gnu": "4.9.1",
+    "@rollup/rollup-linux-x64-gnu": "4.9.0",
+    "@rollup/rollup-linux-x64-musl": "4.9.1",
+    "@rollup/rollup-win32-arm64-msvc": "4.9.0",
+    "@rollup/rollup-win32-ia32-msvc": "4.9.0",
+    "@rollup/rollup-win32-x64-msvc": "4.9.0"
   },
   "prettier": {
     "tabWidth": 2
